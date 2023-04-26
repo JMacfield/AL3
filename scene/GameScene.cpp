@@ -16,7 +16,7 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("./Resources/sample.png");
+	textureHandle_ = TextureManager::Load("./Resources/player.png");
 	// 3Dモデルの生成
 	model_ = Model::Create();
 	// ワールドトランスフォーム
