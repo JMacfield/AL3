@@ -4,6 +4,8 @@
 #include "WorldTransform.h"
 #include "ViewProjection.h"
 #include <cassert>
+#include "Input.h"
+#include "ImGuiManager.h"
 
 /// <summary>
 /// 自キャラ
@@ -35,4 +37,8 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+	// キーボード入力
+	Input* input_ = nullptr;
+	// ImGUiで値を入力する変数
+	float inputFloat3[3] = {0, 0, 0};
 };
