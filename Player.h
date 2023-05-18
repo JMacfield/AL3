@@ -2,10 +2,8 @@
 
 #include "Model.h"
 #include "WorldTransform.h"
-#include "ViewProjection.h"
-#include <cassert>
 #include "Input.h"
-#include "ImGuiManager.h"
+#include "PlayerBullet.h"
 
 /// <summary>
 /// 自キャラ
@@ -17,7 +15,7 @@ public:
 	/// </summary>
 	/// <param name= "model">モデル</param>
 	/// <param name= "textureHandle">テクスチャハンドル</param>
-	void Initialize(Model* model,uint32_t textureHandle);
+	void Initialize(Model* model,uint32_t &textureHandle);
 
 	/// <summary>
 	/// 更新
@@ -28,7 +26,17 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name= "viewProjection">ビュープロジェクション（参照渡し）</param>
-	void Draw(ViewProjection viewProjection_);
+	void Draw(ViewProjection &viewProjection);
+
+	/// <summary>
+	/// 回転
+	/// </summary>
+	void Rotate();
+
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack();
 
 private:
 	// ワールド変換データ
@@ -37,8 +45,10 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+	// 自キャラ
+	Player* player_ = nullptr;
 	// キーボード入力
 	Input* input_ = nullptr;
-	// ImGUiで値を入力する変数
-	float inputFloat3[3] = {0, 0, 0};
+	// 弾
+	PlayerBullet* bullet_ = nullptr;
 };
