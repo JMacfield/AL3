@@ -93,8 +93,13 @@ void Player::Rotate() {
 // 攻撃
 void Player::Attack() { 
 	if (input_->PushKey(DIK_SPACE)) {
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
+
+		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 		bullets_.push_back(newBullet);
 		bullet_ = newBullet;
 	}
