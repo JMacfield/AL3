@@ -11,6 +11,8 @@
 /// </summary>
 class Player {
 public:
+	~Player();
+
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -39,11 +41,6 @@ public:
 	/// </summary>
 	void Attack();
 
-	/// <summary>
-	/// デスクトラクタ
-	/// </summary>
-	~Player();
-
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -58,5 +55,5 @@ private:
 	// リスト
 	std::list<PlayerBullet*> bullets_;
 	// 弾
-	PlayerBullet* bullet_ = nullptr;
+	//PlayerBullet* bullet_ = nullptr;
 };

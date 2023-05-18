@@ -21,6 +21,11 @@ void PlayerBullet::Update() {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	
+	// 時間経過で取り消し
+	if (--deathTimer <= 0) {
+		isDead_ = true;
+	}
 }
 
 void PlayerBullet::Draw(const ViewProjection& viewProjection) {
