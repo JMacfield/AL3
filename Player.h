@@ -4,6 +4,7 @@
 #include "WorldTransform.h"
 #include "Input.h"
 #include "PlayerBullet.h"
+#include <list>
 
 /// <summary>
 /// 自キャラ
@@ -38,6 +39,11 @@ public:
 	/// </summary>
 	void Attack();
 
+	/// <summary>
+	/// デスクトラクタ
+	/// </summary>
+	~Player();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -49,6 +55,8 @@ private:
 	Player* player_ = nullptr;
 	// キーボード入力
 	Input* input_ = nullptr;
+	// リスト
+	std::list<PlayerBullet*> bullets_;
 	// 弾
 	PlayerBullet* bullet_ = nullptr;
 };

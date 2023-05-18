@@ -72,6 +72,9 @@ void Player::Update() {
 
 	if (bullet_) {
 		bullet_->Update();
+	} 
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Update();
 	}
 }
 
@@ -90,15 +93,26 @@ void Player::Rotate() {
 // 攻撃
 void Player::Attack() { 
 	if (input_->PushKey(DIK_SPACE)) {
-		PlayerBullet* newBullet = new PlayerBullet;
+		PlayerBullet* newBullet = new PlayerBullet();
 		newBullet->Initialize(model_, worldTransform_.translation_);
+		bullets_.push_back(newBullet);
 		bullet_ = newBullet;
 	}
 }
 
 void Player::Draw(ViewProjection& viewProjection_) {
+	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 	if (bullet_) {
 		bullet_->Draw(viewProjection_);
 	}
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection_);
+	}
+}
+
+Player::~Player() { 
+	for (PlayerBullet* bullet : bullets_) {
+		delete bullet;
+		bullet = nullptr;
+	}
 }
