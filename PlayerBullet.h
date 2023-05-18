@@ -27,7 +27,7 @@ private:
 	Vector3 velocity_;
 
 	// 弾
-	static const int32_t kLifeTime = 60 * 5;
+	static const int32_t kLifeTime = 60 * 4;
 	// デスタイマー
 	int32_t deathTimer = kLifeTime;
 	// デスフラグ

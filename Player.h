@@ -54,6 +54,4 @@ private:
 	Input* input_ = nullptr;
 	// リスト
 	std::list<PlayerBullet*> bullets_;
-	// 弾
-	//PlayerBullet* bullet_ = nullptr;
 };
