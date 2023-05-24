@@ -13,23 +13,22 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 }
 
 void Enemy::Update() { 
+	(this->*EfuncTable[static_cast<size_t>(phase_)])();
+
 	worldTransform_.UpdateMatrix();
-	
-	switch (phase_) { 
-	case Phase::Approach:
-		Approach();
-		break;
-		
-	case Phase::Leave:
-		Leave();
-		break;
 
-	case Phase::Start:
-		break;
-
-	default:
-		break;
-	}
+	//switch (phase_) { 
+	//case Phase::Approach:
+	//	Approach();
+	//	break;
+	//	
+	//case Phase::Leave:
+	//	Leave();
+	//	break;
+	//
+	//default:
+	//	break;
+	//}
 }
 
 void Enemy::Draw(const ViewProjection& viewProjection) {
@@ -46,3 +45,7 @@ void Enemy::Approach() {
 void Enemy::Leave() {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, {-0.5f, 0.5f, 0.0f});
 }
+
+void (Enemy::*Enemy::EfuncTable[])() = {
+	&Enemy::Approach, &Enemy::Leave
+};

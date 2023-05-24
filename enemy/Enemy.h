@@ -10,19 +10,19 @@ public:
 
 	void Draw(const ViewProjection& viewProjection);
 
-	private:
+private:
 		enum class Phase {
 			Approach,
 			Leave,
-			Start
 	};
 
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
 	uint32_t textureHandle_ = 0u;
 	Vector3 velocity_;
-	Phase phase_ = Phase::Approach;
 
+	Phase phase_ = Phase::Approach;
 	void Approach();
 	void Leave();
+	static void (Enemy::*EfuncTable[])();
 };
