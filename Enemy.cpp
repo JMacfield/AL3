@@ -24,9 +24,6 @@ void Enemy::Update() {
 		Leave();
 		break;
 
-	case Phase::Start:
-		break;
-
 	default:
 		break;
 	}

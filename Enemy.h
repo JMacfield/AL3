@@ -14,7 +14,6 @@ public:
 		enum class Phase {
 			Approach,
 			Leave,
-			Start
 	};
 
 	WorldTransform worldTransform_;
