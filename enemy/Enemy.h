@@ -24,9 +24,6 @@ public:
 	Vector3 GetPosition() { return worldTransform_.translation_; }
 
 private:
-	//static void (Enemy::*phaseTable_[])();
-
-private:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
 	uint32_t textureHandle_ = 0u;
