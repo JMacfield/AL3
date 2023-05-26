@@ -1,4 +1,4 @@
-#include "EnemyState.h"
+﻿#include "EnemyState.h"
 
 void EnemyApproach::Update(Enemy* enemy) { 
 	const Vector3 kCharacterApproachSpeed = {0.0f, 0.0f, -0.5f};
