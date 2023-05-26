@@ -53,5 +53,5 @@ private:
 	// キーボード入力
 	Input* input_ = nullptr;
 	// リスト
-	std::list<PlayerBullet*> bullets_
+	std::list<PlayerBullet*> bullets_;
 };
