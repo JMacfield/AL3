@@ -3,7 +3,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "Input.h"
-#include "player/PlayerBullet.h"
+#include "PlayerBullet.h"
 #include <list>
 
 /// <summary>

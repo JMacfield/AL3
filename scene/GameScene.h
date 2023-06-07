@@ -8,7 +8,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "player/Player.h"
+#include "Player.h"
 #include "ImGuiManager.h"
 #include "DebugCamera.h"
 #include "Enemy.h"
