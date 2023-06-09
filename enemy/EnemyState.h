@@ -7,16 +7,21 @@ class Enemy;
 class EnemyState {
 public:
 	virtual ~EnemyState(){};
+	virtual void Update() = 0;
+	virtual void Initialize(Enemy* enemy_) = 0;
 
-	virtual void Update(Enemy* enemy) = 0;
+protected:
+	Enemy* enemy;
 };
 
 class EnemyApproach : public EnemyState {
 public:
-	void Update(Enemy* enemy);
+	void Update();
+	void Initialize(Enemy* enemy_);
 };
 
 class EnemyLeave : public EnemyState {
 public:
-	void Update(Enemy* enemy);
+	void Update();
+	void Initialize(Enemy* enemy_);
 };

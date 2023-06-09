@@ -5,13 +5,15 @@
 #include <cmath>
 #include <assert.h>
 
-inline Vector3 Add(const Vector3& v1, const Vector3& v2) {
-	Vector3 result;
-	result.x = v1.x + v2.x;
-	result.y = v1.y + v2.y;
-	result.z = v1.z + v2.z;
-	return result;
-}
+inline Vector3 Add(Vector3 a, Vector3 b) { return {a.x + b.x, a.y + b.y, a.z + b.z}; }
+
+//inline Vector3 Add(const Vector3& v1, const Vector3& v2) {
+//	Vector3 result;
+//	result.x = v1.x + v2.x;
+//	result.y = v1.y + v2.y;
+//	result.z = v1.z + v2.z;
+//	return result;
+//}
 
 inline Matrix4x4 MakeTranslateMatrix(const Vector3& translate) {
 	Matrix4x4 result;

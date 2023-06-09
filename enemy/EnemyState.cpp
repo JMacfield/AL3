@@ -1,7 +1,12 @@
 ﻿#include "EnemyState.h"
 
-void EnemyApproach::Update(Enemy* enemy) { 
-	const Vector3 kCharacterApproachSpeed = {0.0f, 0.0f, -0.5f};
+void EnemyApproach::Update() { 
+	if (--enemy->fireTimer <= 0) {
+		enemy->Fire();
+		enemy->fireTimer = enemy->kFireInterval;
+	}
+
+	const Vector3 kCharacterApproachSpeed = {0.0f, 0.0f, -0.2f};
 
 	enemy->Move(kCharacterApproachSpeed);
 
@@ -10,8 +15,15 @@ void EnemyApproach::Update(Enemy* enemy) {
 	}
 }
 
-void EnemyLeave::Update(Enemy* enemy) { 
-	const Vector3 kCharacterLeaveSpeed = {-0.5f, 0.5f, 0.0f};
+void EnemyApproach::Initialize(Enemy* enemy_) { 
+	enemy = enemy_;
+	enemy->fireTimer = enemy->kFireInterval;
+}
+
+void EnemyLeave::Update() { 
+	const Vector3 kCharacterLeaveSpeed = {-0.2f, 0.2f, 0.0f};
 
 	enemy->Move(kCharacterLeaveSpeed); 
 }
+
+void EnemyLeave::Initialize(Enemy* enemy_) { enemy = enemy_; }
