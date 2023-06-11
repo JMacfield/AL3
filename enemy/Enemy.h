@@ -35,7 +35,7 @@ private:
 	Vector3 velocity_;
 
 	EnemyState* phase_ = nullptr;
-
+	
 	std::list<EnemyBullet*> bullets_;
 };
 

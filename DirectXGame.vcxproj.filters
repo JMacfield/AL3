@@ -67,6 +67,12 @@
     <Filter Include="ヘッダー ファイル\player">
       <UniqueIdentifier>{293fef22-dc8d-404a-9d35-0758a39320e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\time">
+      <UniqueIdentifier>{dab4eab2-6247-462f-86e7-d034333181ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\time">
+      <UniqueIdentifier>{9bacd3e4-b1dd-499c-b22c-21d398e94c13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -101,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="enemy\EnemyBullet.cpp">
       <Filter>ソース ファイル\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="time\TimaCall.cpp">
+      <Filter>ソース ファイル\time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="enemy\EnemyBullet.h">
       <Filter>ヘッダー ファイル\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="time\TimeCall.h">
+      <Filter>ヘッダー ファイル\time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
