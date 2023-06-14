@@ -126,6 +126,7 @@ void Player::Draw(ViewProjection& viewProjection_) {
 
 Vector3 Player::GetWorldPosition() {
 	    Vector3 worldPosition;
+
 	    worldPosition.x = worldTransform_.matWorld_.m[3][0];
 	    worldPosition.y = worldTransform_.matWorld_.m[3][1];
 	    worldPosition.z = worldTransform_.matWorld_.m[3][2];
