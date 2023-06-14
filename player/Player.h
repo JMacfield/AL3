@@ -41,6 +41,8 @@ public:
 	/// </summary>
 	void Attack();
 
+	Vector3 GetWorldPosition();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

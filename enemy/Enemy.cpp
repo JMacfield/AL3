@@ -1,6 +1,7 @@
 ﻿#include "Enemy.h"
 #include <cassert>
 #include "CreatedMath.h"
+#include "Player.h"
 
 Enemy::Enemy() {
 
@@ -56,8 +57,18 @@ void Enemy::Move(Vector3 velocity) {
 }
 
 void Enemy::Fire() { 
-	Vector3 velocity = {0.0f, 0.0f, -1.0f};
-	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+	assert(player_);
+
+	const float kBulletSpeed = 1.0f;
+
+	Vector3 playerPosition = player_->GetWorldPosition();
+	Vector3 enemyPosition = this->GetWorldPosition();
+	Vector3 velocity = Subtract(playerPosition, enemyPosition);
+	velocity = Normalize(velocity);
+
+	velocity.x *= kBulletSpeed;
+	velocity.y *= kBulletSpeed;
+	velocity.z *= kBulletSpeed;
 
 	EnemyBullet* newBullet = new EnemyBullet();
 	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
@@ -70,4 +81,12 @@ void Enemy::Draw(const ViewProjection& viewProjection) {
 	for (EnemyBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection);
 	}
+}
+
+Vector3 Enemy::GetWorldPosition() {
+	Vector3 worldPosition;
+	worldPosition.x = worldTransform_.matWorld_.m[3][0];
+	worldPosition.y = worldTransform_.matWorld_.m[3][1];
+	worldPosition.z = worldTransform_.matWorld_.m[3][2];
+	return worldPosition;
 }
