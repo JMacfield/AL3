@@ -71,6 +71,7 @@ void Enemy::Fire() {
 	velocity.z *= kBulletSpeed;
 
 	EnemyBullet* newBullet = new EnemyBullet();
+
 	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 	bullets_.push_back(newBullet);
 }
@@ -85,6 +86,7 @@ void Enemy::Draw(const ViewProjection& viewProjection) {
 
 Vector3 Enemy::GetWorldPosition() {
 	Vector3 worldPosition;
+	//worldTransform_.UpdateMatrix();
 
 	worldPosition.x = worldTransform_.matWorld_.m[3][0];
 	worldPosition.y = worldTransform_.matWorld_.m[3][1];
