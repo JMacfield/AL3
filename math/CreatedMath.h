@@ -11,6 +11,10 @@ inline Vector3 Subtract(const Vector3& v1, const Vector3& v2) {
 	return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
 }
 
+inline Vector3 Multiply(float scalar, const Vector3& v) {
+	return {v.x * scalar, v.y * scalar, v.z * scalar};
+}
+
 inline float Length(const Vector3& v) { return sqrtf((v.x * v.x) + (v.y * v.y) + (v.z * v.z)); }
 
 inline Vector3 Normalize(const Vector3& v) {
@@ -19,6 +23,30 @@ inline Vector3 Normalize(const Vector3& v) {
 		return {v.x / len, v.y / len, v.z / len};
 	}
 	return v;
+}
+
+inline float Dot(const Vector3& v1, const Vector3& v2) {
+	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
+inline Vector3 Lerp(float t, const Vector3& s, const Vector3& e) {
+	Vector3 result;
+	Vector3 es = Subtract(e, s);
+	result = Add(s, Multiply(t, es));
+	return result;
+}
+
+inline Vector3 Slerp(float t, const Vector3& s, const Vector3& e) {
+	float dot = Dot(Normalize(s), Normalize(e));
+	if (std::abs(dot) > 0.999f) {
+		return Lerp(t, s, e);
+	}
+	float theta = std::acos(dot);
+	float sinTheta = std::sin(theta);
+	float t1 = std::sin((1.0f - t) * theta) / sinTheta;
+	float t2 = std::sin(t * theta) / sinTheta;
+
+	return Add(Multiply(t1, s), Multiply(t2, e));
 }
 
 //inline Vector3 Add(const Vector3& v1, const Vector3& v2) {

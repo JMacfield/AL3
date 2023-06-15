@@ -130,5 +130,6 @@ Vector3 Player::GetWorldPosition() {
 	    worldPosition.x = worldTransform_.matWorld_.m[3][0];
 	    worldPosition.y = worldTransform_.matWorld_.m[3][1];
 	    worldPosition.z = worldTransform_.matWorld_.m[3][2];
-	    return worldPosition;
+	    
+		return worldPosition;
 }

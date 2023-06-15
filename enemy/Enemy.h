@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "Model.h"
-#include "WorldTransform.h"
+#include <WorldTransform.h>
 #include "EnemyState.h"
 #include "CreatedMath.h"
 #include "EnemyBullet.h"
@@ -34,12 +34,12 @@ public:
 	Vector3 GetWorldPosition();
 
 private:
+	EnemyState* phase_ = nullptr;
+
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
 	uint32_t textureHandle_ = 0u;
 	Vector3 velocity_;
-
-	EnemyState* phase_ = nullptr;
 	
 	std::list<EnemyBullet*> bullets_;
 

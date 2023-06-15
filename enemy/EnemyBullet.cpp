@@ -1,6 +1,7 @@
 #include "EnemyBullet.h"
 #include "CreatedMath.h"
 #include <assert.h>
+#include "Player.h"
 
 void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	assert(model);
@@ -18,9 +19,20 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 }
 
 void EnemyBullet::Update() {
-	worldTransform_.UpdateMatrix();
-	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+	Vector3 toPlayer = Subtract(player_->GetWorldPosition(), worldTransform_.translation_);
 
+	toPlayer = Normalize(toPlayer);
+	velocity_ = Normalize(velocity_);
+	velocity_ = Slerp(0.1f, velocity_, toPlayer);
+
+	worldTransform_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+	float velociteXZ = Length({velocity_.x, 0.0f, velocity_.z});
+	
+	worldTransform_.rotation_.x = std::atan2(-velocity_.y, velociteXZ);
+
+	worldTransform_.UpdateMatrix();
+
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 	if (--deathTimer <= 0) {
 		isDead_ = true;
 	}
