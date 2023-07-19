@@ -84,6 +84,10 @@ void Enemy::Draw(const ViewProjection& viewProjection) {
 	}
 }
 
+void Enemy::OnCollision() {
+
+}
+
 Vector3 Enemy::GetWorldPosition() {
 	Vector3 worldPosition;
 	worldTransform_.UpdateMatrix();

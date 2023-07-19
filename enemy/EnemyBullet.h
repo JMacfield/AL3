@@ -14,7 +14,12 @@ public:
 	void Draw(const ViewProjection& viewProjection);
 
 	bool IsDead() const { return isDead_; }
+	
+	void OnCollision();
+
 	void SetPlayer(Player* player) { player_ = player; }
+
+	Vector3 GetWorldPosition();
 
 private:
 	WorldTransform worldTransform_;
@@ -23,7 +28,7 @@ private:
 
 	Vector3 velocity_;
 
-	static const int32_t kLifeTime = 60;
+	static const int32_t kLifeTime = 120;
 	int32_t deathTimer = kLifeTime;
 
 	bool isDead_ = false;

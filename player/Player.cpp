@@ -124,6 +124,10 @@ void Player::Draw(ViewProjection& viewProjection_) {
 		}
 }
 
+void Player::OnCollision() {
+
+}
+
 Vector3 Player::GetWorldPosition() {
 	    Vector3 worldPosition;
 

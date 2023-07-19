@@ -41,7 +41,11 @@ public:
 	/// </summary>
 	void Attack();
 
+	void OnCollision();
+
 	Vector3 GetWorldPosition();
+
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
 private:
 	// ワールド変換データ
