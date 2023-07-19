@@ -73,6 +73,9 @@
     <Filter Include="ヘッダー ファイル\time">
       <UniqueIdentifier>{9bacd3e4-b1dd-499c-b22c-21d398e94c13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\collider">
+      <UniqueIdentifier>{369a34a7-6478-404c-94c7-9e67f37031de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="time\TimeCall.h">
       <Filter>ヘッダー ファイル\time</Filter>
+    </ClInclude>
+    <ClInclude Include="collider\Collider.h">
+      <Filter>ヘッダー ファイル\collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

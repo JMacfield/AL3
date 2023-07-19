@@ -68,4 +68,5 @@ private: // メンバ変数
 
 private:
 	void CheckAllCollision();
+	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);
 };

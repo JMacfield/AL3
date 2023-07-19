@@ -5,11 +5,12 @@
 #include "Input.h"
 #include "PlayerBullet.h"
 #include <list>
+#include "Collider.h"
 
 /// <summary>
 /// 自キャラ
 /// </summary>
-class Player {
+class Player : public Collider {
 public:
 	~Player();
 
@@ -41,9 +42,9 @@ public:
 	/// </summary>
 	void Attack();
 
-	void OnCollision();
+	void OnCollision() override;
 
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() override;
 
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
