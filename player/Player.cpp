@@ -3,6 +3,7 @@
 #include "CreatedMath.h"
 #include "ImGuiManager.h"
 #include "Collider.h"
+#include "GameScene.h"
 
 Player::~Player() {
 	for (PlayerBullet* bullet : bullets_) {
@@ -77,6 +78,7 @@ void Player::Update() {
 
 	// デバッグ
 	ImGui::Begin("Debug");
+	ImGui::Text("Toggle Camera Flag : 0 key");
 	ImGui::SliderFloat3("player", imputFloat3, -30.0f, 30.0f);
 	ImGui::End();
 	worldTransform_.translation_.x = imputFloat3[0];

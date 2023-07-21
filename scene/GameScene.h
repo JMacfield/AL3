@@ -16,6 +16,8 @@
 #include "CollisionConfig.h"
 #include "CollisionManager.h"
 
+#include "Skydome.h"
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -56,6 +58,7 @@ private: // メンバ変数
 	uint32_t textureHandle_ = 0;
 	// 3Dモデルデータ
 	Model* model_ = nullptr;
+	Model* skyDomeModel_ = nullptr;
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	// ビュープロジェクション
@@ -71,7 +74,7 @@ private: // メンバ変数
 
 	CollisionManager* collisionManager_;
 
+	SkyDome* skyDome_;
+
 private:
-	void CheckAllCollision();
-	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);
 };
