@@ -11,7 +11,7 @@ Player::~Player() {
 	}
 }
 
-void Player::Initialize(Model* model, uint32_t &textureHandle) { 
+void Player::Initialize(Model* model, uint32_t &textureHandle, Vector3 position) { 
 	assert(model);
 
 	model_ = model;
@@ -24,6 +24,8 @@ void Player::Initialize(Model* model, uint32_t &textureHandle) {
 
 	SetCollisionAttribute(CollisionConfig::kCollisionAttributePlayer);
 	SetCollisionMask(~CollisionConfig::kCollisionAttributePlayer);
+
+	worldTransform_.translation_ = Add(worldTransform_.translation_, position);
 }
 
 void Player::Update() { 

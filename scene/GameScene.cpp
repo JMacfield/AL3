@@ -36,8 +36,9 @@ void GameScene::Initialize() {
 
 	// 自キャラの生成
 	player_ = new Player();
+	Vector3 playerPosition(0, 0, 20);
 	// 自キャラの初期化
-	player_->Initialize(model_, textureHandle_);
+	player_->Initialize(model_, textureHandle_, playerPosition);
 	
 	// 敵の生成
 	enemy_ = new Enemy;
@@ -53,6 +54,8 @@ void GameScene::Initialize() {
 
 	railCamera_ = new RailCamera;
 	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f});
+
+	player_->SetParent(&railCamera_->GetWorldTransform());
 
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
