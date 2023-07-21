@@ -15,6 +15,7 @@ GameScene::~GameScene()
 
 	delete skyDome_;
 	delete skyDomeModel_;
+	delete railCamera_;
 }
 
 void GameScene::Initialize() {
@@ -49,6 +50,9 @@ void GameScene::Initialize() {
 
 	skyDome_ = new SkyDome;
 	skyDome_->Initialize(skyDomeModel_);
+
+	railCamera_ = new RailCamera;
+	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f});
 
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -89,14 +93,15 @@ void GameScene::Update()
 	}
 	// カメラの処理
 	if (isDebugCameraActive_ == true) {
-		debugCamera_->Update();
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		railCamera_->Update();
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-		// ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
+		railCamera_->Update();
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
 	}
 	#endif
 }

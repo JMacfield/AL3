@@ -17,6 +17,7 @@
 #include "CollisionManager.h"
 
 #include "Skydome.h"
+#include "RailCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -75,6 +76,8 @@ private: // メンバ変数
 	CollisionManager* collisionManager_;
 
 	SkyDome* skyDome_;
+
+	RailCamera* railCamera_;
 
 private:
 };
