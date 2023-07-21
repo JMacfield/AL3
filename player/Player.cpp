@@ -2,6 +2,7 @@
 #include <cassert>
 #include "CreatedMath.h"
 #include "ImGuiManager.h"
+#include "Collider.h"
 
 Player::~Player() {
 	for (PlayerBullet* bullet : bullets_) {
@@ -19,6 +20,9 @@ void Player::Initialize(Model* model, uint32_t &textureHandle) {
 
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
+
+	SetCollisionAttribute(CollisionConfig::kCollisionAttributePlayer);
+	SetCollisionMask(~CollisionConfig::kCollisionAttributePlayer);
 }
 
 void Player::Update() { 
