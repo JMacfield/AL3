@@ -13,6 +13,9 @@
 #include "DebugCamera.h"
 #include "Enemy.h"
 
+#include "CollisionConfig.h"
+#include "CollisionManager.h"
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -65,6 +68,8 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 	// 敵
 	Enemy* enemy_ = nullptr;
+
+	CollisionManager* collisionManager_;
 
 private:
 	void CheckAllCollision();
