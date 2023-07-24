@@ -38,6 +38,7 @@ void Player::Update() {
 		return false;
 	});
 
+	worldTransform_.TransferMatrix();
 	// キャラクターの移動ベクトル
 	Vector3 move = {0, 0, 0};
 

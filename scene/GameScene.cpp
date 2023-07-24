@@ -45,7 +45,7 @@ void GameScene::Initialize() {
 	// 敵の初期化
 	//Vector3 position = {0, 0, 20};
 	enemy_->SetPlayer(player_);
-	enemy_->Initialize(model_, {15, 0, 80}, {0, 0, -0.1f});
+	enemy_->Initialize(model_, {14, 0, 40}, {0, 0, -0.5f});
 	
 	collisionManager_ = new CollisionManager();
 
@@ -97,12 +97,12 @@ void GameScene::Update()
 	// カメラの処理
 	if (isDebugCameraActive_ == true) {
 		railCamera_->Update();
-		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	} else {
 		railCamera_->Update();
-		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	}
