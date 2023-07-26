@@ -36,7 +36,7 @@ void GameScene::Initialize() {
 
 	// 自キャラの生成
 	player_ = new Player();
-	Vector3 playerPosition(0, 0, 20);
+	Vector3 playerPosition(0, 0, 60);
 	// 自キャラの初期化
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	
@@ -45,7 +45,7 @@ void GameScene::Initialize() {
 	// 敵の初期化
 	//Vector3 position = {0, 0, 20};
 	enemy_->SetPlayer(player_);
-	enemy_->Initialize(model_, {14, 0, 40}, {0, 0, -0.5f});
+	enemy_->Initialize(model_, {14, 0, 100}, {0, 0, -0.5f});
 	
 	collisionManager_ = new CollisionManager();
 
@@ -70,6 +70,8 @@ void GameScene::Update()
 	player_->Update();
 
 	enemy_->Update();
+
+	//debugCamera_->Update();
 
 	collisionManager_->ClearColliders();
 	collisionManager_->AddCollider(player_);
@@ -96,14 +98,14 @@ void GameScene::Update()
 	}
 	// カメラの処理
 	if (isDebugCameraActive_ == true) {
-		railCamera_->Update();
+		debugCamera_->Update();
 		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	} else {
 		railCamera_->Update();
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	}
 	#endif
