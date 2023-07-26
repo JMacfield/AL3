@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Model.h"
 #include <WorldTransform.h>
@@ -6,6 +6,8 @@
 #include "CreatedMath.h"
 #include "EnemyBullet.h"
 #include "Collider.h"
+
+class GameScene;
 
 class Player;
 
@@ -36,7 +38,10 @@ public:
 	void SetPlayer(Player* player) { player_ = player; }
 	Vector3 GetWorldPosition() override;
 
-	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+	//const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+	bool IsDead() const { return isDead_; }
 
 private:
 	EnemyState* phase_ = nullptr;
@@ -46,8 +51,12 @@ private:
 	uint32_t textureHandle_ = 0u;
 	Vector3 velocity_;
 	
-	std::list<EnemyBullet*> bullets_;
+	bool isDead_ = false;
+
+	//std::list<EnemyBullet*> bullets_;
 
 	Player* player_ = nullptr;
+
+	GameScene* gameScene_ = nullptr;
 };
 

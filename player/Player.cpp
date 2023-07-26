@@ -1,4 +1,4 @@
-﻿#include <Player.h>
+#include <Player.h>
 #include <cassert>
 #include "CreatedMath.h"
 #include "ImGuiManager.h"
@@ -62,8 +62,8 @@ void Player::Update() {
 	// ベクターの加算
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 	// アフィン変換行列の作成
-	worldTransform_.matWorld_ = MakeAffineMatrix(
-	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	//worldTransform_.matWorld_ = MakeAffineMatrix(
+	   // worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	// 行列更新
 	worldTransform_.UpdateMatrix();
 

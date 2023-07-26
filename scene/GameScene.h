@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Audio.h"
 #include "DirectXCommon.h"
@@ -18,6 +18,9 @@
 
 #include "Skydome.h"
 #include "RailCamera.h"
+
+#include <string>
+#include <sstream>
 
 /// <summary>
 /// ゲームシーン
@@ -50,6 +53,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -61,7 +66,7 @@ private: // メンバ変数
 	Model* model_ = nullptr;
 	Model* skyDomeModel_ = nullptr;
 	// ワールドトランスフォーム
-	WorldTransform worldTransform_;
+	//WorldTransform worldTransform_;
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 	// 自キャラ
@@ -70,8 +75,11 @@ private: // メンバ変数
 	bool isDebugCameraActive_ = false;
 	// デバッグカメラ
 	DebugCamera* debugCamera_ = nullptr;
+
+	std::list<Enemy*> enemies_;
+
 	// 敵
-	Enemy* enemy_ = nullptr;
+	//Enemy* enemy_ = nullptr;
 
 	CollisionManager* collisionManager_;
 
@@ -79,5 +87,14 @@ private: // メンバ変数
 
 	RailCamera* railCamera_;
 
+	std::list<EnemyBullet*> enemyBullets_;
+	std::stringstream enemyPopCommands;
+
+	bool enemyPopWait;
+	int32_t enemyPopWaitTimer;
+
 private:
+	void LoadEnemyPopData();
+	void UpdateEnemyPopCommands();
+	void EnemySpawn(Vector3 position, Vector3 velocity);
 };

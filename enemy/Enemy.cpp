@@ -1,16 +1,13 @@
-﻿#include "Enemy.h"
+#include "Enemy.h"
 #include <assert.h>
 #include "Player.h"
+#include "GameScene.h"
 
 Enemy::Enemy() {
 
 }
 
 Enemy::~Enemy() { 
-	for (EnemyBullet* bullet : bullets_) {
-		delete bullet;
-	}
-
 	delete phase_;
 }
 
@@ -32,20 +29,20 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 }
 
 void Enemy::Update() { 
-	bullets_.remove_if([](EnemyBullet* bullet) {
+	/*bullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet->IsDead()) {
 			delete bullet;
 			return true;
 		}
 		return false;
-	});
+	});*/
 
 	worldTransform_.UpdateMatrix();
 	phase_->Update();
 
-	for (EnemyBullet* bullet : bullets_) {
+	/*for (EnemyBullet* bullet : bullets_) {
 		bullet->Update();
-	}
+	}*/
 }
 
 void Enemy::ChangingState(EnemyState* newState) { 
@@ -76,15 +73,13 @@ void Enemy::Fire() {
 	newBullet->SetPlayer(player_);
 
 	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
-	bullets_.push_back(newBullet);
+	//bullets_.push_back(newBullet);
+
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 void Enemy::Draw(const ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-
-	for (EnemyBullet* bullet : bullets_) {
-		bullet->Draw(viewProjection);
-	}
 }
 
 void Enemy::OnCollision() {
