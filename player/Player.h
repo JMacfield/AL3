@@ -54,6 +54,8 @@ public:
 
 	void SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
 
+	void SetReticle(const ViewProjection viewProjection);
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
