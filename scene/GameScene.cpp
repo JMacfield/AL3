@@ -36,6 +36,9 @@ void GameScene::Initialize() {
 	// ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("player.png");
 	// 3Dモデルの生成
+
+	TextureManager::Load("Reticle.png");
+
 	model_ = Model::Create();
 	skyDomeModel_ = Model::CreateFromOBJ("skydome", true);
 	// ワールドトランスフォーム
@@ -45,7 +48,7 @@ void GameScene::Initialize() {
 
 	// 自キャラの生成
 	player_ = new Player();
-	Vector3 playerPosition(0, 0, 60);
+	Vector3 playerPosition(0, 0, 30);
 	// 自キャラの初期化
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	
@@ -75,7 +78,7 @@ void GameScene::Update()
 { 
 	UpdateEnemyPopCommands();
 
-	player_->Update();
+	player_->Update(viewProjection_);
 
 	// デバッグカメラのifdef
 	#ifdef _DEBUG
@@ -188,6 +191,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+
+	player_->DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

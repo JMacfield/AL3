@@ -7,6 +7,7 @@
 #include <list>
 #include "Collider.h"
 #include "CollisionConfig.h"
+#include "Sprite.h"
 
 /// <summary>
 /// 自キャラ
@@ -25,13 +26,15 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(const ViewProjection viewProjection);
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name= "viewProjection">ビュープロジェクション（参照渡し）</param>
 	void Draw(ViewProjection &viewProjection);
+
+	void DrawUI();
 
 	/// <summary>
 	/// 回転
@@ -62,6 +65,10 @@ private:
 	Player* player_ = nullptr;
 	// キーボード入力
 	Input* input_ = nullptr;
+
+	WorldTransform worldTransform3DReticle_;
+	Sprite* sprite2DReticle_ = nullptr;
+
 	// リスト
 	std::list<PlayerBullet*> bullets_;
 };
