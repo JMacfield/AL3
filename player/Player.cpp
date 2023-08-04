@@ -13,6 +13,6 @@ void Player::Update() {
 	worldTransform_.TransferMatrix();
 }
 
-void Player::Draw(ViewProjection viewProjection_) { 
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+void Player::Draw(ViewProjection& viewProjection) { 
+	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }

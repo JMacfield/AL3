@@ -26,7 +26,7 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name= "viewProjection">ビュープロジェクション（参照渡し）</param>
-	void Draw(ViewProjection viewProjection_);
+	void Draw(ViewProjection& viewProjection);
 
 private:
 	// ワールド変換データ
