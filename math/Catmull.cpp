@@ -17,8 +17,8 @@ void Catmull::Initialize(const ViewProjection& viewProjection) {
 void Catmull::Update() { 
   for (size_t i = 0; i < pointCounts_ + 1; i++) {
 		float t = 1.0f / pointCounts_ * i;
-		Vector3 pos = CatmullRom(controlPoints_, t);
-		drawingPoints_.push_back(pos);
+		Vector3 position = CatmullRom(controlPoints_, t);
+		drawingPoints_.push_back(position);
 	}
 }
 
