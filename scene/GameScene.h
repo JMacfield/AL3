@@ -19,6 +19,8 @@
 #include "Skydome.h"
 #include "RailCamera.h"
 
+#include "Catmull.h"
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -78,6 +80,8 @@ private: // メンバ変数
 	SkyDome* skyDome_;
 
 	RailCamera* railCamera_;
+
+	Catmull* spline_;
 
 private:
 };

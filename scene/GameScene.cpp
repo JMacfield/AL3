@@ -55,6 +55,9 @@ void GameScene::Initialize() {
 	railCamera_ = new RailCamera;
 	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f});
 
+	spline_ = new Catmull();
+	spline_->Initialize(viewProjection_);
+
 	player_->SetParent(&railCamera_->GetWorldTransform());
 
 	// デバッグカメラの生成
@@ -88,7 +91,9 @@ void GameScene::Update()
 	collisionManager_->CheckAllCollision();
 
 	skyDome_->Update();
-	
+
+	spline_->Update();
+
 	// デバッグカメラのifdef
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0) && isDebugCameraActive_ == false) {
@@ -139,6 +144,7 @@ void GameScene::Draw() {
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	skyDome_->Draw(viewProjection_);
+	spline_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

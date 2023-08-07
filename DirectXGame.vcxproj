@@ -114,6 +114,7 @@
     <ClCompile Include="enemy\EnemyBullet.cpp" />
     <ClCompile Include="enemy\EnemyState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="math\Catmull.cpp" />
     <ClCompile Include="player\Player.cpp" />
     <ClCompile Include="player\PlayerBullet.cpp" />
     <ClCompile Include="railcamera\RailCamera.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="enemy\EnemyBullet.h" />
     <ClInclude Include="enemy\EnemyState.h" />
     <ClInclude Include="input\Input.h" />
+    <ClInclude Include="math\Catmull.h" />
     <ClInclude Include="math\CreatedMath.h" />
     <ClInclude Include="math\Matrix4x4.h" />
     <ClInclude Include="math\Vector2.h" />
