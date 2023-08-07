@@ -15,27 +15,52 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("./Resources/player.png");
-	// 3Dモデルの生成
-	model_.reset(Model::Create());
 	// ワールドトランスフォーム
 	worldTransform_.Initialize();
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+
 	// 自キャラの生成
 	player_ = std::make_unique<Player>();
-	// 自キャラの初期化
-	player_->Initialize(model_.get(), textureHandle_);
+	playerModel_.reset(Model::CreateFromOBJ("player", true));
+	player_->Initialize(playerModel_.get());
 
+	// 天球
 	skyDome_ = std::make_unique<SkyDome>();
 	skyDomeModel_.reset(Model::CreateFromOBJ("skydome", true));
 	skyDome_->Initialize(skyDomeModel_.get());
+
+	// 地面
+	ground_ = std::make_unique<Ground>();
+	groundModel_.reset(Model::CreateFromOBJ("ground", true));
+	ground_->Initialize(groundModel_.get());
+
+	// デバッグカメラ
+	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
+	AxisIndicator::GetInstance()->SetVisible(true);
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 }
 
 void GameScene::Update() 
 { 
 	player_->Update();
+
+	#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_0) && isDebugCameraActive_ == false) {
+		isDebugCameraActive_ = true;
+	} else if(input_->TriggerKey(DIK_0)&&isDebugCameraActive_ == true){
+		isDebugCameraActive_ = false;
+	}
+
+	if (isDebugCameraActive_ == true) {
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewProjection_.TransferMatrix();
+	} else {
+		
+	}
+	#endif
 }
 
 void GameScene::Draw() {
@@ -66,6 +91,7 @@ void GameScene::Draw() {
 	/// </summary>
 	player_->Draw(viewProjection_);
 	skyDome_->Draw(viewProjection_);
+	ground_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
