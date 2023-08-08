@@ -7,36 +7,34 @@ Enemy::Enemy() {
 }
 
 Enemy::~Enemy() { 
-	delete phase_;
+	
 }
 
-void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& velocity) { 
+void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	assert(model);
-	
-	model_ = model;
 	textureHandle_ = TextureManager::Load("enemy.png");
-
-	phase_ = new EnemyApproach();
+	model_ = model;
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
+
 	velocity_ = velocity;
+	stateArray_[0] = new EnemyStateApproach();
+	stateArray_[1] = new EnemyStateLeave();
 }
 
 void Enemy::Update() { 
-	phase_->Update(this);
 	worldTransform_.UpdateMatrix();
-}
 
-void Enemy::ChangingState(EnemyState* newState) { 
-	delete phase_;
-	phase_ = newState;
-}
-
-void Enemy::Move(Vector3 speed) { 
-	worldTransform_.translation_ = Add(worldTransform_.translation_, speed);
+	previousStateNumber_ = stateNumber_;
+	stateNumber_ = stateArray_[stateNumber_]->GetNumber();
+	stateArray_[stateNumber_]->Update(this);
 }
 
 void Enemy::Draw(const ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+}
+
+void Enemy::Move(Vector3 speed) {
+	worldTransform_.translation_ = Add(worldTransform_.translation_, speed);
 }

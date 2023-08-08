@@ -1,8 +1,12 @@
 ﻿#pragma once
 
-#include "Model.h"
-#include "WorldTransform.h"
 #include "EnemyState.h"
+#include "EnemyStateApproach.h"
+#include "EnemyStateLeave.h"
+
+#include "Model.h"
+#include "Vector3.h"
+#include "WorldTransform.h"
 
 class EnemyState;
 
@@ -17,18 +21,21 @@ public:
 
 	void Draw(const ViewProjection& viewProjection);
 
-	void Move(Vector3 speed);
-
-	void ChangingState(EnemyState* newState);
-
 	Vector3 GetPosition() { return worldTransform_.translation_; }
+	Vector3 GetSpeed() { return velocity_; }
+
+	void SetPosition(const Vector3& position) { worldTransform_.translation_ = position; }
+	void Move(Vector3 velocity);
 
 private:
 	WorldTransform worldTransform_;
-	Model* model_ = nullptr;
-	uint32_t textureHandle_ = 0u;
+	Model* model_;
+
+	uint32_t textureHandle_;
 	Vector3 velocity_;
 
-	EnemyState* phase_ = nullptr;
-};
+	int stateNumber_;
+	int previousStateNumber_;
 
+	EnemyState* stateArray_[2];
+};

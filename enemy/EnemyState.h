@@ -1,22 +1,13 @@
 ﻿#pragma once
 
-#include "Enemy.h"
-
 class Enemy;
 
 class EnemyState {
 public:
-	virtual ~EnemyState(){};
-
 	virtual void Update(Enemy* enemy) = 0;
-};
 
-class EnemyApproach : public EnemyState {
-public:
-	void Update(Enemy* enemy);
-};
+	int GetNumber() { return stateNumber_; }
 
-class EnemyLeave : public EnemyState {
-public:
-	void Update(Enemy* enemy);
+protected:
+	static int stateNumber_;
 };
