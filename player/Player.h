@@ -16,7 +16,7 @@ public:
 	/// </summary>
 	/// <param name= "model">モデル</param>
 	/// <param name= "textureHandle">テクスチャハンドル</param>
-	void Initialize(Model* model);
+	void Initialize(Model* modelBody,Model* modelHead, Model* modelL_arm,Model* modelR_arm);
 
 	/// <summary>
 	/// 更新
@@ -29,14 +29,33 @@ public:
 	/// <param name= "viewProjection">ビュープロジェクション（参照渡し）</param>
 	void Draw(ViewProjection& viewProjection);
 
+	void InitializeFloatingGimmick();
+	void UpdateFloatingGimmick();
+
 	Vector3 GetWorldPosition();
-	const WorldTransform& GetWorldTransform() { return worldTransform_; }
+
+	const WorldTransform& GetWorldTransformBody() { return worldTransformBody_; }
+	const WorldTransform& GetWorldTransformBase() { return worldTransformBase_; }
+
 	void SetViewProjection(const ViewProjection* viewProjection) {viewProjection_ = viewProjection; }
+
+	void SetParent(const WorldTransform* parent);
 
 private:
 	// ワールド変換データ
-	WorldTransform worldTransform_;
+	WorldTransform worldTransformBase_;
+	WorldTransform worldTransformBody_;
+	WorldTransform worldTransformHead_;
+	WorldTransform worldTransformL_arm_;
+	WorldTransform worldTransformR_arm_;
+
 	const ViewProjection* viewProjection_ = nullptr;
+
 	// モデル
-	Model* model_ = nullptr;
+	Model* modelBody_;
+	Model* modelHead_;
+	Model* modelL_arm_;
+	Model* modelR_arm_;
+
+	float floatingParameter_ = 0.0f;
 };

@@ -22,9 +22,13 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 
 	// 自キャラの生成
+	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterHead_.reset(Model::CreateFromOBJ("float_Head", true));
+	modelFighterL_arm_.reset(Model::CreateFromOBJ("float_L_arm", true));
+	modelFighterR_arm_.reset(Model::CreateFromOBJ("float_R_arm", true));
+
 	player_ = std::make_unique<Player>();
-	playerModel_.reset(Model::CreateFromOBJ("player", true));
-	player_->Initialize(playerModel_.get());
+	player_->Initialize(modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),modelFighterR_arm_.get());
 
 	// 天球
 	skyDome_ = std::make_unique<SkyDome>();
@@ -42,7 +46,7 @@ void GameScene::Initialize() {
 	// カメラ
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Initialize();
-	followCamera_->SetTarget(&player_->GetWorldTransform());
+	followCamera_->SetTarget(&player_->GetWorldTransformBase());
 
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 }

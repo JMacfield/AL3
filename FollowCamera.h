@@ -3,7 +3,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-    class FollowCamera {
+class FollowCamera {
 public:
 	void Initialize();
 

@@ -59,17 +59,26 @@ private: // メンバ変数
 
 	// ワールドトランスフォーム
 	WorldTransform worldTransform_;
+	
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
+	
 	// 自キャラ
-	std::unique_ptr<Model> playerModel_;
+	std::unique_ptr<Model> modelFighterBody_;
+	std::unique_ptr<Model> modelFighterHead_;
+	std::unique_ptr<Model> modelFighterL_arm_;
+	std::unique_ptr<Model> modelFighterR_arm_;
+
 	std::unique_ptr<Player> player_;
+	
 	// 天球
 	std::unique_ptr<Model> skyDomeModel_;
 	std::unique_ptr<SkyDome> skyDome_;
+	
 	// 地面
 	std::unique_ptr<Model> groundModel_;
 	std::unique_ptr<Ground> ground_;
+	
 	// カメラ
 	std::unique_ptr<FollowCamera> followCamera_;
 
