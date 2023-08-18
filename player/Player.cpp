@@ -7,11 +7,10 @@ void Player::Initialize(Model* model) {
 
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {0.0f, 0.0f, 0.0f};
-	worldTransform_.UpdateMatrix();
 }
 
 void Player::Update() { 
-	
+	worldTransform_.TransferMatrix();
 }
 
 void Player::Draw(ViewProjection& viewProjection) { 

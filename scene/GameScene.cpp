@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "TextureManager.h"
+#include "ImGuiManager.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -28,22 +29,22 @@ void GameScene::Initialize() {
 	// 天球
 	skyDome_ = std::make_unique<SkyDome>();
 	skyDomeModel_.reset(Model::CreateFromOBJ("skydome", true));
-	skyDome_->Initialize(skyDomeModel_.get());
+	skyDome_->Initialize(skyDomeModel_.get(), {0, 0, 0});
 
 	// 地面
 	ground_ = std::make_unique<Ground>();
 	groundModel_.reset(Model::CreateFromOBJ("ground", true));
-	ground_->Initialize(groundModel_.get());
+	ground_->Initialize(groundModel_.get(), {0, 0, 0});
 
 	// デバッグカメラ
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
-	AxisIndicator::GetInstance()->SetVisible(true);
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 }
 
 void GameScene::Update() 
 { 
 	player_->Update();
+	skyDome_->Update();
+	ground_->Update();
 
 	#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0) && isDebugCameraActive_ == false) {
@@ -58,9 +59,16 @@ void GameScene::Update()
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		viewProjection_.TransferMatrix();
 	} else {
-		
+		viewProjection_.UpdateMatrix();
 	}
 	#endif
+
+	ImGui::Begin("Debug Window");
+	ImGui::Text("Debug Camera Toggle : 0");
+	ImGui::End();
+
+	AxisIndicator::GetInstance()->SetVisible(true);
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
 }
 
 void GameScene::Draw() {

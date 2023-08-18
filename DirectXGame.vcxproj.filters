@@ -52,6 +52,27 @@
     <Filter Include="ソース ファイル\2d">
       <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\player">
+      <UniqueIdentifier>{27dbad13-b0ec-482b-8045-3e929eb9d1fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ground">
+      <UniqueIdentifier>{5ca987d9-2d1d-45fb-9df7-8d5f041f10e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\skydome">
+      <UniqueIdentifier>{ecd60e68-596b-4df7-8cbd-622fcf631259}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\world">
+      <UniqueIdentifier>{a32f4395-7140-4234-a196-2ebe41ad4a70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\ground">
+      <UniqueIdentifier>{afbd69c8-02a9-439b-b9f9-ebcf1c05b540}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\player">
+      <UniqueIdentifier>{3816c857-83cb-42c6-a8bf-8acba1e8436e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\skydome">
+      <UniqueIdentifier>{07b20981-401a-4f3e-a079-4a753bfdea4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,8 +90,17 @@
     <ClCompile Include="2d\ImGuiManager.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="player\Player.cpp">
+      <Filter>ソース ファイル\player</Filter>
+    </ClCompile>
+    <ClCompile Include="ground\Ground.cpp">
+      <Filter>ソース ファイル\ground</Filter>
+    </ClCompile>
+    <ClCompile Include="skydome\Skydome.cpp">
+      <Filter>ソース ファイル\skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldTransformEx\WorldTransformEx.cpp">
+      <Filter>ソース ファイル\world</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +188,17 @@
     <ClInclude Include="2d\ImGuiManager.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="ground\Ground.h">
+      <Filter>ヘッダー ファイル\ground</Filter>
+    </ClInclude>
+    <ClInclude Include="player\Player.h">
+      <Filter>ヘッダー ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="math\MyMath.h">
+      <Filter>ヘッダー ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="skydome\Skydome.h">
+      <Filter>ヘッダー ファイル\skydome</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

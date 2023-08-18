@@ -1,17 +1,18 @@
 #include "Ground.h"
 #include <cassert>
 
-void Ground::Initialize(Model* model) { 
+void Ground::Initialize(Model* model, const Vector3& position) { 
 	assert(model);
 	model_ = model;
 
 	worldTranform_.Initialize();
+	worldTranform_.translation_ = position;
 	worldTranform_.scale_ = {100.0f, 100.0f, 100.0f};
-	worldTranform_.UpdateMatrix();
 }
 
-void Ground::Update() {
-
+void Ground::Update() { 
+	worldTranform_.UpdateMatrix();
+	worldTranform_.TransferMatrix();
 }
 
 void Ground::Draw(const ViewProjection& viewProjection) {

@@ -8,7 +8,7 @@
 
 class Ground {
 public:
-	void Initialize(Model* model);
+	void Initialize(Model* mode, const Vector3& positionl);
 
 	void Update();
 
