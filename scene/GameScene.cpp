@@ -38,6 +38,13 @@ void GameScene::Initialize() {
 
 	// デバッグカメラ
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
+
+	// カメラ
+	followCamera_ = std::make_unique<FollowCamera>();
+	followCamera_->Initialize();
+	followCamera_->SetTarget(&player_->GetWorldTransform());
+
+	player_->SetViewProjection(&followCamera_->GetViewProjection());
 }
 
 void GameScene::Update() 
@@ -46,7 +53,14 @@ void GameScene::Update()
 	skyDome_->Update();
 	ground_->Update();
 
-	#ifdef _DEBUG
+	viewProjection_.UpdateMatrix();
+	followCamera_->Update();
+
+	viewProjection_.matView = followCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+	viewProjection_.TransferMatrix();
+
+	/*#ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0) && isDebugCameraActive_ == false) {
 		isDebugCameraActive_ = true;
 	} else if(input_->TriggerKey(DIK_0)&&isDebugCameraActive_ == true){
@@ -61,7 +75,7 @@ void GameScene::Update()
 	} else {
 		viewProjection_.UpdateMatrix();
 	}
-	#endif
+	#endif*/
 
 	ImGui::Begin("Debug Window");
 	ImGui::Text("Debug Camera Toggle : 0");

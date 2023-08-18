@@ -217,8 +217,21 @@ inline Matrix4x4 MakeRotateZMatrix(float radian) {
 	return result;
 }
 
-inline Matrix4x4
-    MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
+inline Matrix4x4 MakeRotateMatrix(const Vector3& radian) {
+	Matrix4x4 rotateX{};
+	Matrix4x4 rotateY{};
+	Matrix4x4 rotateZ{};
+	rotateX = MakeRotateXMatrix(radian.x);
+	rotateY = MakeRotateYMatrix(radian.y);
+	rotateZ = MakeRotateZMatrix(radian.z);
+
+	Matrix4x4 result{};
+	result = Multiply(rotateX, Multiply(rotateY, rotateZ));
+
+	return result;
+}
+
+inline Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
 	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);

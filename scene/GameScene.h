@@ -13,6 +13,7 @@
 #include "DebugCamera.h"
 #include "AxisIndicator.h"
 #include "Ground.h"
+#include "FollowCamera.h"
 
 #include <memory>
 
@@ -69,6 +70,8 @@ private: // メンバ変数
 	// 地面
 	std::unique_ptr<Model> groundModel_;
 	std::unique_ptr<Ground> ground_;
+	// カメラ
+	std::unique_ptr<FollowCamera> followCamera_;
 
 	/// <summary>
 	/// ゲームシーン用

@@ -29,9 +29,14 @@ public:
 	/// <param name= "viewProjection">ビュープロジェクション（参照渡し）</param>
 	void Draw(ViewProjection& viewProjection);
 
+	Vector3 GetWorldPosition();
+	const WorldTransform& GetWorldTransform() { return worldTransform_; }
+	void SetViewProjection(const ViewProjection* viewProjection) {viewProjection_ = viewProjection; }
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
+	const ViewProjection* viewProjection_ = nullptr;
 	// モデル
 	Model* model_ = nullptr;
 };
