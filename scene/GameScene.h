@@ -9,6 +9,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Skydome.h"
 #include "DebugCamera.h"
 #include "AxisIndicator.h"
@@ -63,12 +64,17 @@ private: // メンバ変数
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 	
+	// 敵
+	std::unique_ptr<Enemy> enemy_;
+	std::unique_ptr<Model> enemyModel_;
+
 	// 自キャラ
 	std::unique_ptr<Model> modelFighterBody_;
 	std::unique_ptr<Model> modelFighterHead_;
 	std::unique_ptr<Model> modelFighterL_arm_;
 	std::unique_ptr<Model> modelFighterR_arm_;
 
+	std::unique_ptr<Model> playerModel_;
 	std::unique_ptr<Player> player_;
 	
 	// 天球

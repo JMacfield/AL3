@@ -6,16 +6,13 @@
 #include <math.h>
 #include <cassert>
 
-void Player::Initialize(Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm) { 
-	assert(modelBody);
-	assert(modelHead);
-	assert(modelL_arm);
-	assert(modelR_arm);
+void Player::Initialize(const std::vector<Model*>&models) { 
+	BaseCharacter::Initialize(models);
 
-	modelBody_ = modelBody;
-	modelHead_ = modelHead;
-	modelL_arm_ = modelL_arm;
-	modelR_arm_ = modelR_arm;
+	models_[kModelIndexBody] = models[kModelIndexBody];
+	models_[kModelIndexHead] = models[kModelIndexHead];
+	models_[kModelIndexL_arm] = models[kModelIndexL_arm];
+	models_[kModelIndexR_arm] = models[kModelIndexR_arm];
 
 	worldTransformL_arm_.translation_.x = -1.5f;
 	worldTransformR_arm_.translation_.x = 1.5f;
@@ -23,6 +20,7 @@ void Player::Initialize(Model* modelBody, Model* modelHead, Model* modelL_arm, M
 	worldTransformR_arm_.translation_.y = 5.0f;
 
 	SetParent(&GetWorldTransformBody());
+	worldTransformBody_.parent_ = worldTransform_.parent_;
 
 	InitializeFloatingGimmick();
 
@@ -66,46 +64,52 @@ void Player::Update() {
 	worldTransformR_arm_.UpdateMatrix();
 }
 
-void Player::Draw(ViewProjection& viewProjection) {
-	modelBody_->Draw(worldTransformBody_, viewProjection);
-	modelHead_->Draw(worldTransformHead_, viewProjection);
-	modelL_arm_->Draw(worldTransformL_arm_, viewProjection);
-	modelR_arm_->Draw(worldTransformR_arm_, viewProjection);
+void Player::Draw(const ViewProjection& viewProjection) {
+	models_[kModelIndexBody]->Draw(worldTransformBody_, viewProjection);
+	models_[kModelIndexHead]->Draw(worldTransformHead_, viewProjection);
+	models_[kModelIndexL_arm]->Draw(worldTransformL_arm_, viewProjection);
+	models_[kModelIndexR_arm]->Draw(worldTransformR_arm_, viewProjection);
 }
 
 Vector3 Player::GetWorldPosition() { 
 	Vector3 worldPosition;
 
-	worldPosition.x = worldTransformBase_.matWorld_.m[3][0];
-	worldPosition.y = worldTransformBase_.matWorld_.m[3][1];
-	worldPosition.z = worldTransformBase_.matWorld_.m[3][2];
+	worldPosition.x = worldTransform_.matWorld_.m[3][0];
+	worldPosition.y = worldTransform_.matWorld_.m[3][1];
+	worldPosition.z = worldTransform_.matWorld_.m[3][2];
 
 	return worldPosition;
 }
 
 void Player::SetParent(const WorldTransform* parent) { 
-	worldTransformBase_.parent_ = parent;
 	worldTransformHead_.parent_ = parent;
 	worldTransformL_arm_.parent_ = parent;
 	worldTransformR_arm_.parent_ = parent;
 }
 
-void Player::InitializeFloatingGimmick() { 
-	floatingParameter_ = 0.0f;
+void Player::InitializeFloatingGimmick() {
+	for (int i = 0; i < kMaxMoveModelParts_; i++) {
+		floatingParameter_[i] = 0.0f;
+	}
 }
 
 void Player::UpdateFloatingGimmick() {
-	const uint16_t T = 120;
+	uint16_t floatingCycle[2]{};
+	floatingCycle[0] = 120;
+	floatingCycle[1] = 120;
 
-	const float step = 2.0f * (float)M_PI / T;
+	float steps[2]{};
 
-	floatingParameter_ += step;
-	floatingParameter_ = (float)std::fmod(floatingParameter_, 2.0f * M_PI);
+	for (int i = 0; i < kMaxMoveModelParts_; i++) {
+		steps[i] = 2.0f * (float)M_PI / floatingCycle[i];
+		floatingParameter_[i] += steps[i];
+		floatingParameter_[i] = (float)std::fmod(floatingParameter_[i], 2.0f * M_PI);
+	}
 
-	const float floatingAmplitude = 1.0f;
+	const float floatingAmplitude = 0.5f;
 
-	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude;
+	worldTransformBody_.translation_.y = std::sin(floatingParameter_[0]) * floatingAmplitude;
 
-	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * 0.75f;
-	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * 0.75f;
+	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_[1]) * 0.75f;
+	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_[1]) * 0.75f;
 }

@@ -2,32 +2,32 @@
 
 #include "Model.h"
 #include "WorldTransform.h"
-#include "ViewProjection.h"
+#include "BaseCharacter.h"
 
 #include <memory>
 
 /// <summary>
 /// 自キャラ
 /// </summary>
-class Player {
+class Player : public BaseCharacter {
 public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name= "model">モデル</param>
 	/// <param name= "textureHandle">テクスチャハンドル</param>
-	void Initialize(Model* modelBody,Model* modelHead, Model* modelL_arm,Model* modelR_arm);
+	void Initialize(const std::vector<Model*>& models) override;
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name= "viewProjection">ビュープロジェクション（参照渡し）</param>
-	void Draw(ViewProjection& viewProjection);
+	void Draw(const ViewProjection& viewProjection) override;
 
 	void InitializeFloatingGimmick();
 	void UpdateFloatingGimmick();
@@ -57,5 +57,7 @@ private:
 	Model* modelL_arm_;
 	Model* modelR_arm_;
 
-	float floatingParameter_ = 0.0f;
+	const uint16_t kMaxMoveModelParts_ = 2;
+
+	float floatingParameter_[2];
 };

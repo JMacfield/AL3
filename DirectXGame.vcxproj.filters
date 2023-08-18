@@ -52,9 +52,6 @@
     <Filter Include="ソース ファイル\2d">
       <UniqueIdentifier>{814a0f6d-f847-4c45-856d-4688fa4c9e6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\player">
-      <UniqueIdentifier>{27dbad13-b0ec-482b-8045-3e929eb9d1fa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\ground">
       <UniqueIdentifier>{5ca987d9-2d1d-45fb-9df7-8d5f041f10e5}</UniqueIdentifier>
     </Filter>
@@ -67,9 +64,6 @@
     <Filter Include="ヘッダー ファイル\ground">
       <UniqueIdentifier>{afbd69c8-02a9-439b-b9f9-ebcf1c05b540}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\player">
-      <UniqueIdentifier>{3816c857-83cb-42c6-a8bf-8acba1e8436e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\skydome">
       <UniqueIdentifier>{07b20981-401a-4f3e-a079-4a753bfdea4c}</UniqueIdentifier>
     </Filter>
@@ -78,6 +72,24 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\followcamera">
       <UniqueIdentifier>{d30779fe-7b47-4553-bae9-714159d44e2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\basecharacter">
+      <UniqueIdentifier>{afd6d201-3afb-49cd-9819-2c32b1faebc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\basecharacter">
+      <UniqueIdentifier>{302899f1-a25b-4e9d-8f91-8523b76093c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\basecharacter\player">
+      <UniqueIdentifier>{3816c857-83cb-42c6-a8bf-8acba1e8436e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\basecharacter\player">
+      <UniqueIdentifier>{27dbad13-b0ec-482b-8045-3e929eb9d1fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\basecharacter\enemy">
+      <UniqueIdentifier>{0a7855f6-021d-4821-bb01-87fe41c46737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\basecharacter\enemy">
+      <UniqueIdentifier>{7b1c4875-d600-4794-9efe-ce8f2d980c78}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +108,6 @@
     <ClCompile Include="2d\ImGuiManager.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
-    <ClCompile Include="player\Player.cpp">
-      <Filter>ソース ファイル\player</Filter>
-    </ClCompile>
     <ClCompile Include="ground\Ground.cpp">
       <Filter>ソース ファイル\ground</Filter>
     </ClCompile>
@@ -110,6 +119,15 @@
     </ClCompile>
     <ClCompile Include="FollowCamera.cpp">
       <Filter>ソース ファイル\followcamera</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル\basecharacter\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter\BaseCharacter.cpp">
+      <Filter>ソース ファイル\basecharacter</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCharacter\Player\Player.cpp">
+      <Filter>ソース ファイル\basecharacter\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,9 +218,6 @@
     <ClInclude Include="ground\Ground.h">
       <Filter>ヘッダー ファイル\ground</Filter>
     </ClInclude>
-    <ClInclude Include="player\Player.h">
-      <Filter>ヘッダー ファイル\player</Filter>
-    </ClInclude>
     <ClInclude Include="math\MyMath.h">
       <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
@@ -211,6 +226,15 @@
     </ClInclude>
     <ClInclude Include="FollowCamera.h">
       <Filter>ヘッダー ファイル\followcamera</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCharacter\Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\basecharacter\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCharacter\BaseCharacter.h">
+      <Filter>ヘッダー ファイル\basecharacter</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCharacter\Player\Player.h">
+      <Filter>ヘッダー ファイル\basecharacter\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
