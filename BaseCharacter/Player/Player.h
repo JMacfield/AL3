@@ -4,6 +4,7 @@
 #include "WorldTransform.h"
 #include "BaseCharacter.h"
 
+#include <optional>
 #include <memory>
 
 /// <summary>
@@ -32,6 +33,11 @@ public:
 	void InitializeFloatingGimmick();
 	void UpdateFloatingGimmick();
 
+	void BehaviorRootInitialize();
+	void BehaviorRootUpdate();
+	void BehaviorAttackInitialize();
+	void BehaviorAttackUpdate();
+
 	Vector3 GetWorldPosition();
 
 	const WorldTransform& GetWorldTransformBody() { return worldTransformBody_; }
@@ -42,12 +48,24 @@ public:
 	void SetParent(const WorldTransform* parent);
 
 private:
+	enum class Behavior {
+		kRoot,
+		kAttack
+	};
+
+	Behavior behavior_ = Behavior::kRoot;
+	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+
+	int animationFrame;
+
 	// ワールド変換データ
 	WorldTransform worldTransformBase_;
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformHead_;
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
+
+	WorldTransform worldTransformHammer_;
 
 	const ViewProjection* viewProjection_ = nullptr;
 
