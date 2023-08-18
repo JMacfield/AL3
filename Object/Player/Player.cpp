@@ -1,10 +1,14 @@
 #include "Player.h"
 #include "MyMath.h"
+
 #include <Input.h>
 #include <Xinput.h>
+
 #define _USE_MATH_DEFINES
 #include <math.h>
+
 #include <cassert>
+#include "GlobalVariables.h"
 
 void Player::Initialize(const std::vector<Model*>&models) { 
 	BaseCharacter::Initialize(models);
@@ -30,6 +34,13 @@ void Player::Initialize(const std::vector<Model*>&models) {
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
 	worldTransformHammer_.Initialize();
+
+	GlobalVariables* globalVariables{};
+	globalVariables = GlobalVariables::GetInstance();
+
+	const char* groupName = "Player";
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	globalVariables->SetValue(groupName, "Testing", 90);
 }
 
 void Player::Update() { 
