@@ -9,6 +9,7 @@ class GlobalVariables {
 public:
 	void CreateGroup(const std::string& groupName);
 	void Update();
+	void SaveFile(const std::string& groupName);
 
 	void SetValue(const std::string& groupName, const std::string& key, int32_t value);
 	void SetValue(const std::string& groupName, const std::string& key, float value);
@@ -32,4 +33,6 @@ public:
 	};
 
 	std::map<std::string, Group> datas_;
+
+	const std::string kDirectoryPath = "Resources/GlobalVariables/";
 };
