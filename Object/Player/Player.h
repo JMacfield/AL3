@@ -47,6 +47,8 @@ public:
 
 	void SetParent(const WorldTransform* parent);
 
+	void ApplyGlobalVariables();
+
 private:
 	enum class Behavior {
 		kRoot,

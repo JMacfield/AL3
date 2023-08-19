@@ -9,13 +9,26 @@ class GlobalVariables {
 public:
 	void CreateGroup(const std::string& groupName);
 	void Update();
+
 	void SaveFile(const std::string& groupName);
+	void LoadFile(const std::string& groupName);
+	void LoadFiles();
 
 	void SetValue(const std::string& groupName, const std::string& key, int32_t value);
 	void SetValue(const std::string& groupName, const std::string& key, float value);
 	void SetValue(const std::string& groupName, const std::string& key, Vector3& value);
 
 	static GlobalVariables* GetInstance();
+
+	bool GetIsSaved() { return isSave_; }
+
+	int32_t GetIntValue(const std::string& groupName, const std::string& key);
+	float GetFloatValue(const std::string& groupName, const std::string& key);
+	Vector3 GetVector3Value(const std::string& groupName, const std::string& key);
+
+	void AddItem(const std::string& groupName, const std::string& key, int32_t value);
+	void AddItem(const std::string& groupName, const std::string& key, float value);
+	void AddItem(const std::string& groupName, const std::string& key, Vector3 value);
 
 private:
 	GlobalVariables() = default;
@@ -35,4 +48,6 @@ public:
 	std::map<std::string, Group> datas_;
 
 	const std::string kDirectoryPath = "Resources/GlobalVariables/";
+
+	bool isSave_;
 };

@@ -35,12 +35,15 @@ void Player::Initialize(const std::vector<Model*>&models) {
 	worldTransformR_arm_.Initialize();
 	worldTransformHammer_.Initialize();
 
-	GlobalVariables* globalVariables{};
-	globalVariables = GlobalVariables::GetInstance();
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 
 	const char* groupName = "Player";
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
-	globalVariables->SetValue(groupName, "Testing", 90);
+
+	globalVariables->AddItem(groupName, "Testing", 90);
+	globalVariables->AddItem(groupName, "Head Translation", worldTransformHead_.translation_);
+	globalVariables->AddItem(groupName, "Left Arm Translation", worldTransformL_arm_.translation_);
+	globalVariables->AddItem(groupName, "Right Arm Translation", worldTransformR_arm_.translation_);
 }
 
 void Player::Update() { 
@@ -86,6 +89,13 @@ void Player::Update() {
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	ApplyGlobalVariables();
+
+	if (globalVariables->GetInstance()->GetIsSaved()) {
+		globalVariables->SaveFile("Player");
+	}
 }
 
 void Player::Draw(const ViewProjection& viewProjection) {
@@ -204,4 +214,16 @@ void Player::BehaviorAttackUpdate() {
 	}
 
 	animationFrame++;
+}
+
+void Player::ApplyGlobalVariables() {
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+
+	worldTransformHead_.translation_ = globalVariables->GetVector3Value(groupName, "Head Translation");
+	worldTransformL_arm_.translation_ = globalVariables->GetVector3Value(groupName, "Left Arm Translation");
+	worldTransformR_arm_.translation_ = globalVariables->GetVector3Value(groupName, "Right Arm Translation");
+	
+	//floatingParameter_[0] = globalVariables->GetFloatValue(groupName, "Floating Cycle Arm");
+	//floatingParameter_[1] = globalVariables->GetFloatValue(groupName, "Floating Cycle Body");
 }
