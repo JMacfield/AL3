@@ -13,10 +13,10 @@
 void Player::Initialize(const std::vector<Model*>&models) { 
 	BaseCharacter::Initialize(models);
 
-	models_[kModelIndexBody] = models[kModelIndexBody];
+	/*models_[kModelIndexBody] = models[kModelIndexBody];
 	models_[kModelIndexHead] = models[kModelIndexHead];
 	models_[kModelIndexL_arm] = models[kModelIndexL_arm];
-	models_[kModelIndexR_arm] = models[kModelIndexR_arm];
+	models_[kModelIndexR_arm] = models[kModelIndexR_arm];*/
 
 	worldTransformL_arm_.translation_.x = -1.5f;
 	worldTransformR_arm_.translation_.x = 1.5f;
@@ -47,6 +47,8 @@ void Player::Initialize(const std::vector<Model*>&models) {
 }
 
 void Player::Update() { 
+	BaseCharacter::Update();
+
 	XINPUT_STATE joyState;
 
 	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -75,11 +77,11 @@ void Player::Update() {
 	}
 
 	switch (behavior_) {
-	case Player::Behavior::kRoot:
+	case Behavior::kRoot:
 	default:
 		BehaviorRootUpdate();
 		break;
-	case Player::Behavior::kAttack:
+	case Behavior::kAttack:
 		BehaviorAttackUpdate();
 		break;
 	}
@@ -123,6 +125,7 @@ void Player::SetParent(const WorldTransform* parent) {
 	worldTransformHead_.parent_ = parent;
 	worldTransformL_arm_.parent_ = parent;
 	worldTransformR_arm_.parent_ = parent;
+	worldTransformHammer_.parent_ = parent;
 }
 
 void Player::InitializeFloatingGimmick() {
@@ -184,7 +187,7 @@ void Player::BehaviorRootUpdate() {
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 		worldTransformBody_.translation_ = worldTransform_.translation_;
 
-		worldTransform_.translation_.y = std::atan2(move.x, move.z);
+		worldTransform_.rotation_.y = std::atan2(move.x, move.z);
 		worldTransformBody_.rotation_.y = worldTransform_.rotation_.y;
 	}
 

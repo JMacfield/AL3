@@ -41,7 +41,7 @@ public:
 	Vector3 GetWorldPosition();
 
 	const WorldTransform& GetWorldTransformBody() { return worldTransformBody_; }
-	const WorldTransform& GetWorldTransformBase() { return worldTransformBase_; }
+	const WorldTransform& GetWorldTransformBase() { return worldTransform_; }
 
 	void SetViewProjection(const ViewProjection* viewProjection) {viewProjection_ = viewProjection; }
 
