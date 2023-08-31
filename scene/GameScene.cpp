@@ -121,6 +121,12 @@ void GameScene::Update() {
 
 	viewProjection_.TransferMatrix();
 
+	ImGui::Begin("control");
+	ImGui::Text("L move");
+	ImGui::Text("R camera");
+	ImGui::Text("RB shoot");
+	ImGui::End();
+
 	AxisIndicator::GetInstance()->SetVisible(true);
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&followCamera_->GetViewProjection());
 }
