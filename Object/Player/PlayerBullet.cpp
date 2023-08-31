@@ -8,7 +8,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	assert(model);
 
 	model_ = model;
-	bulletTexture_ = TextureManager::Load("enemy.png");
+	bulletTexture_ = TextureManager::Load("enemyBullet.png");
 
 	SetRadius(1.0f);
 	SetCollisionAttribute(kCollisionAttributePlayer);
