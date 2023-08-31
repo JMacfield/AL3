@@ -112,12 +112,6 @@ void GameScene::Update() {
 	collisionManager_->SetGameObject(player_.get(), playerBullets_, enemy_, enemyBullets_);
 	collisionManager_->CheckAllCollisions(this);
 
-	/*for (Enemy* enemy : enemy_) {
-		for (EnemyBullet* enemyBullet : enemyBullets_) {
-			collisionManager_->CheckAllCollisions(this);
-		}
-	}*/
-
 	viewProjection_.UpdateMatrix();
 
 	followCamera_->Update();
@@ -138,6 +132,8 @@ void GameScene::Draw() {
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(commandList);
+
+
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
