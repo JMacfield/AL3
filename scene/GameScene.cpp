@@ -23,6 +23,9 @@ void GameScene::Initialize() {
 
 	LoadCSVData("csv/enemyPop.csv", &enemyPopCommands_);
 
+	titleResource_ = TextureManager::Load("title.png");
+	titleSprite_ = Sprite::Create(titleResource_, {640, 320}, {1, 1, 1, 1}, {0.5f, 0.5f});
+
 	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterHead_.reset(Model::CreateFromOBJ("float_Head", true));
 	modelFighterL_arm_.reset(Model::CreateFromOBJ("float_L_arm", true));
@@ -62,73 +65,89 @@ void GameScene::Initialize() {
 	collisionManager_ = std::make_unique<CollisionManager>();
 }
 
-void GameScene::Update() { 
-	player_->Update();
+void GameScene::Update() {
+	switch (sceneNumber) {
+	case 0:
+		XINPUT_STATE joyState;
 
-	playerBullets_.remove_if([](PlayerBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-
-			return true;
+		if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
+			return;
 		}
-		return false;
-	});
 
-	for (PlayerBullet* bullet : playerBullets_) {
-		bullet->Update();
-	}
-
-	UpdateEnemyPopCommands();
-
-	enemy_.remove_if([](Enemy* enemy) {
-		if (enemy->IsDead()) {
-			delete enemy;
-
-			return true;
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+			sceneNumber = 1;
 		}
-		return false;
-	});
+		break;
 
-	for (Enemy* enemy : enemy_) {
-		enemy->Update();
-	}
+	case 1:
+		player_->Update();
 
-	for (EnemyBullet* bullet : enemyBullets_) {
-		bullet->Update();
-	}
+		playerBullets_.remove_if([](PlayerBullet* bullet) {
+			if (bullet->IsDead()) {
+				delete bullet;
 
-	enemyBullets_.remove_if([](EnemyBullet* bullet) { 
-		if (bullet->IsDead()) {
-			delete bullet;
+				return true;
+			}
+			return false;
+		});
 
-			return true;
+		for (PlayerBullet* bullet : playerBullets_) {
+			bullet->Update();
 		}
-		return false;
-	});
 
-	skyDome_->Update();
-	ground_->Update();
+		UpdateEnemyPopCommands();
 
-	collisionManager_->SetGameObject(player_.get(), playerBullets_, enemy_, enemyBullets_);
-	collisionManager_->CheckAllCollisions(this);
+		enemy_.remove_if([](Enemy* enemy) {
+			if (enemy->IsDead()) {
+				delete enemy;
 
-	viewProjection_.UpdateMatrix();
+				return true;
+			}
+			return false;
+		});
 
-	followCamera_->Update();
+		for (Enemy* enemy : enemy_) {
+			enemy->Update();
+		}
 
-	viewProjection_.matView = followCamera_->GetViewProjection().matView;
-	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+		for (EnemyBullet* bullet : enemyBullets_) {
+			bullet->Update();
+		}
 
-	viewProjection_.TransferMatrix();
+		enemyBullets_.remove_if([](EnemyBullet* bullet) {
+			if (bullet->IsDead()) {
+				delete bullet;
 
-	ImGui::Begin("control");
-	ImGui::Text("L move");
-	ImGui::Text("R camera");
-	ImGui::Text("RB shoot");
-	ImGui::End();
+				return true;
+			}
+			return false;
+		});
 
-	AxisIndicator::GetInstance()->SetVisible(true);
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&followCamera_->GetViewProjection());
+		skyDome_->Update();
+		ground_->Update();
+
+		collisionManager_->SetGameObject(player_.get(), playerBullets_, enemy_, enemyBullets_);
+		collisionManager_->CheckAllCollisions(this);
+
+		viewProjection_.UpdateMatrix();
+
+		followCamera_->Update();
+
+		viewProjection_.matView = followCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+
+		viewProjection_.TransferMatrix();
+
+		ImGui::Begin("control");
+		ImGui::Text("L move");
+		ImGui::Text("R camera");
+		ImGui::Text("RB shoot");
+		ImGui::End();
+
+		AxisIndicator::GetInstance()->SetVisible(true);
+		AxisIndicator::GetInstance()->SetTargetViewProjection(&followCamera_->GetViewProjection());
+		break;
+	}
 }
 
 void GameScene::Draw() {
@@ -138,8 +157,6 @@ void GameScene::Draw() {
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(commandList);
-
-
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
@@ -159,6 +176,12 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
+	switch (sceneNumber) {
+	case 0:
+
+	break;
+
+	case 1:
 	player_->Draw(viewProjection_);
 
 	for (PlayerBullet* bullet : playerBullets_) {
@@ -175,7 +198,9 @@ void GameScene::Draw() {
 
 	skyDome_->Draw(viewProjection_);
 	ground_->Draw(viewProjection_);
-
+	break;
+	}
+	
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -184,7 +209,15 @@ void GameScene::Draw() {
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(commandList);
 
+	switch (sceneNumber) {
+	case 0:
+	titleSprite_->Draw();
+	break;
+
+	case 1:
 	player_->DrawUI();
+	break;
+	}
 
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる

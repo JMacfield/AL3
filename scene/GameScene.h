@@ -106,6 +106,11 @@ private: // メンバ変数
 
 	ViewProjection viewProjection_;
 
+	uint32_t titleResource_ = 0u;
+	Sprite* titleSprite_ = nullptr;
+
+	int sceneNumber = 0;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
