@@ -91,6 +91,18 @@
     <Filter Include="ヘッダー ファイル\basecharacter\enemy">
       <UniqueIdentifier>{7b1c4875-d600-4794-9efe-ce8f2d980c78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Collider">
+      <UniqueIdentifier>{51dd7cf7-6fb7-42ac-a432-fdb3fcaeccb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Utility">
+      <UniqueIdentifier>{be0b80f5-696e-41de-9945-29eabf23b538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Utility">
+      <UniqueIdentifier>{432a1766-0902-42b1-85a5-16374b6d3a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Collider">
+      <UniqueIdentifier>{28a5e6ef-6def-49f7-9c21-13bf878c5a08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -114,20 +126,41 @@
     <ClCompile Include="skydome\Skydome.cpp">
       <Filter>ソース ファイル\skydome</Filter>
     </ClCompile>
-    <ClCompile Include="WorldTransformEx\WorldTransformEx.cpp">
-      <Filter>ソース ファイル\world</Filter>
-    </ClCompile>
-    <ClCompile Include="FollowCamera.cpp">
-      <Filter>ソース ファイル\followcamera</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCharacter\Enemy\Enemy.cpp">
-      <Filter>ソース ファイル\basecharacter\enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCharacter\BaseCharacter.cpp">
+    <ClCompile Include="Object\BaseCharacter.cpp">
       <Filter>ソース ファイル\basecharacter</Filter>
     </ClCompile>
-    <ClCompile Include="BaseCharacter\Player\Player.cpp">
+    <ClCompile Include="Object\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル\basecharacter\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Enemy\EnemyBullet.cpp">
+      <Filter>ソース ファイル\basecharacter\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\Collider.cpp">
+      <Filter>ソース ファイル\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\ColliderConfig.cpp">
+      <Filter>ソース ファイル\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\ColliderManager.cpp">
+      <Filter>ソース ファイル\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\FollowCamera.cpp">
+      <Filter>ソース ファイル\followcamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\GlobalVariables.cpp">
+      <Filter>ソース ファイル\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Player\Player.cpp">
       <Filter>ソース ファイル\basecharacter\player</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Player\PlayerBullet.cpp">
+      <Filter>ソース ファイル\basecharacter\player</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\TimedCall.cpp">
+      <Filter>ソース ファイル\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="World\WorldTransformEx.cpp">
+      <Filter>ソース ファイル\world</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -224,17 +257,38 @@
     <ClInclude Include="skydome\Skydome.h">
       <Filter>ヘッダー ファイル\skydome</Filter>
     </ClInclude>
-    <ClInclude Include="FollowCamera.h">
-      <Filter>ヘッダー ファイル\followcamera</Filter>
+    <ClInclude Include="Collision\Collider.h">
+      <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="BaseCharacter\Enemy\Enemy.h">
-      <Filter>ヘッダー ファイル\basecharacter\enemy</Filter>
+    <ClInclude Include="Collision\ColliderConfig.h">
+      <Filter>ヘッダー ファイル\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="BaseCharacter\BaseCharacter.h">
+    <ClInclude Include="Object\BaseCharacter.h">
       <Filter>ヘッダー ファイル\basecharacter</Filter>
     </ClInclude>
-    <ClInclude Include="BaseCharacter\Player\Player.h">
+    <ClInclude Include="Collision\ColliderManager.h">
+      <Filter>ヘッダー ファイル\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\basecharacter\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Enemy\EnemyBullet.h">
+      <Filter>ヘッダー ファイル\basecharacter\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\FollowCamera.h">
+      <Filter>ヘッダー ファイル\followcamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\GlobalVariables.h">
+      <Filter>ヘッダー ファイル\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Player\Player.h">
       <Filter>ヘッダー ファイル\basecharacter\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Player\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\basecharacter\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\TimedCall.h">
+      <Filter>ヘッダー ファイル\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

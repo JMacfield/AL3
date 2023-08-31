@@ -7,7 +7,7 @@ void SkyDome::Initialize(Model* model, const Vector3& position) {
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
-	worldTransform_.scale_ = {100.0f, 100.0f, 100.0f};
+	worldTransform_.scale_ = {300.0f, 300.0f, 300.0f};
 }
 
 void SkyDome::Update() { 

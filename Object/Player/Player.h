@@ -1,83 +1,92 @@
 ﻿#pragma once
 
+#include "Collision/Collider.h"
+#include "Input.h"
 #include "Model.h"
+#include "Sprite.h"
 #include "WorldTransform.h"
-#include "BaseCharacter.h"
-
 #include <optional>
-#include <memory>
 
-/// <summary>
-/// 自キャラ
-/// </summary>
-class Player : public BaseCharacter {
+class GameScene;
+
+class Player : public Collider {
 public:
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	/// <param name= "model">モデル</param>
-	/// <param name= "textureHandle">テクスチャハンドル</param>
-	void Initialize(const std::vector<Model*>& models) override;
+	Player();
+	~Player();
 
-	/// <summary>
-	/// 更新
-	/// </summary>
-	void Update() override;
+	void Initialize(
+	    Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm,
+	    Model* modelWeapon, Model* modelBullet);
 
-	/// <summary>
-	/// 描画
-	/// </summary>
-	/// <param name= "viewProjection">ビュープロジェクション（参照渡し）</param>
-	void Draw(const ViewProjection& viewProjection) override;
+	void Update();
+
+	void DrawUI();
+	void Draw(ViewProjection& viewProjection);
+
+	bool UnCollision() override;
+	bool OnCollision() override;
+
+	Vector3 GetWorldPosition() override;
+
+	void Attack();
 
 	void InitializeFloatingGimmick();
 	void UpdateFloatingGimmick();
 
-	void BehaviorRootInitialize();
 	void BehaviorRootUpdate();
-	void BehaviorAttackInitialize();
-	void BehaviorAttackUpdate();
+	void BehaviorRootInitialize();
 
-	Vector3 GetWorldPosition();
+	void Create3DReticle();
+	void Create2DReticle(const ViewProjection& viewProjection);
 
 	const WorldTransform& GetWorldTransformBody() { return worldTransformBody_; }
-	const WorldTransform& GetWorldTransformBase() { return worldTransform_; }
+	const WorldTransform& GetWorldTransformBase() { return worldTransformBase_; }
+	Vector3 GetWorld3DReticlePosition();
 
-	void SetViewProjection(const ViewProjection* viewProjection) {viewProjection_ = viewProjection; }
-
+	void SetWorldPosition(Vector3 prePosition);
+	void SetViewProjection(const ViewProjection* viewProjection) { viewProjection_ = viewProjection; }
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 	void SetParent(const WorldTransform* parent);
 
-	void ApplyGlobalVariables();
-
 private:
-	enum class Behavior {
-		kRoot,
-		kAttack
-	};
-
+	enum class Behavior { kRoot };
 	Behavior behavior_ = Behavior::kRoot;
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
-	int animationFrame;
-
-	// ワールド変換データ
 	WorldTransform worldTransformBase_;
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformHead_;
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
+	WorldTransform worldTransformWeapon_;
 
-	WorldTransform worldTransformHammer_;
+	WorldTransform worldTransform3DReticle_;
 
 	const ViewProjection* viewProjection_ = nullptr;
 
-	// モデル
 	Model* modelBody_;
 	Model* modelHead_;
 	Model* modelL_arm_;
 	Model* modelR_arm_;
+	Model* modelWeapon_;
+	Model* modelBullet_;
 
-	const uint16_t kMaxMoveModelParts_ = 2;
+	float bulletImpactPoint_;
+	float floatingParameter_ = 0.0f;
 
-	float floatingParameter_[2];
+	Sprite* sprite2DReticle_ = nullptr;
+	uint32_t reticleTexture_ = 0u;
+	Matrix4x4 matViewPort_;
+
+	GameScene* gameScene_;
+
+	bool isDead_ = true;
+
+	Vector2 spritePosition_;
+
+	bool isBullet_;
+	
+	Input* input_;
+
+	Vector3 velocity_;
 };

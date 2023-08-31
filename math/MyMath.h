@@ -1,8 +1,11 @@
 #pragma once
 
+#define _USE_MATH_DEFINES
+
 #include "Matrix4x4.h"
 #include "Vector3.h"
 #include <assert.h>
+#include <math.h>
 #include <cmath>
 
 inline Vector3 Add(Vector3 a, Vector3 b) { return {a.x + b.x, a.y + b.y, a.z + b.z}; }
@@ -36,6 +39,14 @@ inline Vector3 Lerp(float t, const Vector3& s, const Vector3& e) {
 	return result;
 }
 
+inline Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
+	Vector3 P;
+	P.x = v1.x + t * (v2.x - v1.x);
+	P.y = v1.y + t * (v2.y - v1.y);
+	P.z = v1.z + t * (v2.z - v1.z);
+	return P;
+}
+
 inline Vector3 Slerp(float t, const Vector3& s, const Vector3& e) {
 	float dot = Dot(Normalize(s), Normalize(e));
 	if (std::abs(dot) > 0.999f) {
@@ -49,6 +60,48 @@ inline Vector3 Slerp(float t, const Vector3& s, const Vector3& e) {
 	return Add(Multiply(t1, s), Multiply(t2, e));
 }
 
+inline Vector3 Slerp(Vector3 start, Vector3 end, float t) {
+	float dot = Dot(start, end);
+	float theta = acos((dot * (float)M_PI) / 180);
+	float sinTheta = sin(theta);
+	float weightStart = sin((1 - t) * theta) / sinTheta;
+	float weightEnd = sin(t * theta) / sinTheta;
+
+	Vector3 result;
+	result.x = (weightStart * start.x + weightEnd * end.x);
+	result.y = (weightStart * start.y + weightEnd * end.y);
+	result.z = (weightStart * start.z + weightEnd * end.z);
+	return result;
+}
+
+inline float Lerp(const float& a, const float& b, float t) {
+	float result{};
+
+	result = a + b * t;
+
+	return result;
+}
+
+inline float Alerp(float a, float b, float t) {
+	float diff = b - a;
+
+	diff = std::fmod(diff, 2 * (float)M_PI);
+	if (diff < 2 * (float)-M_PI) {
+		diff += 2 * (float)M_PI;
+	} else if (diff >= 2 * M_PI) {
+		diff -= 2 * (float)M_PI;
+	}
+
+	diff = std::fmod(diff, 2 * (float)M_PI);
+	if (diff < (float)-M_PI) {
+		diff += 2 * (float)M_PI;
+	} else if (diff >= (float)M_PI) {
+		diff -= 2 * (float)M_PI;
+	}
+
+	return Lerp(a, diff, t);
+}
+
 // inline Vector3 Add(const Vector3& v1, const Vector3& v2) {
 //	Vector3 result;
 //	result.x = v1.x + v2.x;
@@ -56,6 +109,50 @@ inline Vector3 Slerp(float t, const Vector3& s, const Vector3& e) {
 //	result.z = v1.z + v2.z;
 //	return result;
 // }
+
+inline Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
+	Vector3 result{};
+	result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] +
+	           1.0f * matrix.m[3][0];
+	result.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1] +
+	           1.0f * matrix.m[3][1];
+	result.z = vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2] +
+	           1.0f * matrix.m[3][2];
+	float w = vector.x * matrix.m[0][3] + vector.y * matrix.m[1][3] + vector.z * matrix.m[2][3] +
+	          1.0f * matrix.m[3][3];
+	assert(w != 0.0f);
+	result.x /= w;
+	result.y /= w;
+	result.z /= w;
+	return result;
+}
+
+inline Matrix4x4 MakeViewPortMatrix(
+    float left, float top, float width, float height, float minDepth, float maxDepth) {
+	Matrix4x4 result;
+
+	result.m[0][0] = width / 2.0f;
+	result.m[0][1] = 0;
+	result.m[0][2] = 0;
+	result.m[0][3] = 0;
+
+	result.m[1][0] = 0;
+	result.m[1][1] = -(height / 2.0f);
+	result.m[1][2] = 0;
+	result.m[1][3] = 0;
+
+	result.m[2][0] = 0;
+	result.m[2][1] = 0;
+	result.m[2][2] = maxDepth - minDepth;
+	result.m[2][3] = 0;
+
+	result.m[3][0] = left + (width / 2.0f);
+	result.m[3][1] = top + (height / 2.0f);
+	result.m[3][2] = minDepth;
+	result.m[3][3] = 1;
+
+	return result;
+}
 
 inline Matrix4x4 MakeTranslateMatrix(const Vector3& translate) {
 	Matrix4x4 result;
@@ -102,6 +199,116 @@ inline Matrix4x4 MakeScaleMatrix(const Vector3& scale) {
 	result.m[3][1] = 0.0f;
 	result.m[3][2] = 0.0f;
 	result.m[3][3] = 1.0f;
+	return result;
+}
+
+inline Matrix4x4 Inverse(const Matrix4x4& m) {
+	Matrix4x4 result{};
+	float determinant = (m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3]) +
+	                    (m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1]) +
+	                    (m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2])
+
+	                    - (m.m[0][0] * m.m[1][3] * m.m[2][2] * m.m[3][1]) -
+	                    (m.m[0][0] * m.m[1][2] * m.m[2][1] * m.m[3][3]) -
+	                    (m.m[0][0] * m.m[1][1] * m.m[2][3] * m.m[3][2])
+
+	                    - (m.m[0][1] * m.m[1][0] * m.m[2][2] * m.m[3][3]) -
+	                    (m.m[0][2] * m.m[1][0] * m.m[2][3] * m.m[3][1]) -
+	                    (m.m[0][3] * m.m[1][0] * m.m[2][1] * m.m[3][2])
+
+	                    + (m.m[0][3] * m.m[1][0] * m.m[2][2] * m.m[3][1]) +
+	                    (m.m[0][2] * m.m[1][0] * m.m[2][1] * m.m[3][3]) +
+	                    (m.m[0][1] * m.m[1][0] * m.m[2][3] * m.m[3][2])
+
+	                    + (m.m[0][1] * m.m[1][2] * m.m[2][0] * m.m[3][3]) +
+	                    (m.m[0][2] * m.m[1][3] * m.m[2][0] * m.m[3][1]) +
+	                    (m.m[0][3] * m.m[1][1] * m.m[2][0] * m.m[3][2])
+
+	                    - (m.m[0][3] * m.m[1][2] * m.m[2][0] * m.m[3][1]) -
+	                    (m.m[0][2] * m.m[1][1] * m.m[2][0] * m.m[3][3]) -
+	                    (m.m[0][1] * m.m[1][3] * m.m[2][0] * m.m[3][2])
+
+	                    - (m.m[0][1] * m.m[1][2] * m.m[2][3] * m.m[3][0]) -
+	                    (m.m[0][2] * m.m[1][3] * m.m[2][1] * m.m[3][0]) -
+	                    (m.m[0][3] * m.m[1][1] * m.m[2][2] * m.m[3][0])
+
+	                    + (m.m[0][3] * m.m[1][2] * m.m[2][1] * m.m[3][0]) +
+	                    (m.m[0][2] * m.m[1][1] * m.m[2][3] * m.m[3][0]) +
+	                    (m.m[0][1] * m.m[1][3] * m.m[2][2] * m.m[3][0]);
+
+	result.m[0][0] = (1.0f / determinant) *
+	                 (m.m[1][1] * m.m[2][2] * m.m[3][3] + m.m[1][2] * m.m[2][3] * m.m[3][1] +
+	                  m.m[1][3] * m.m[2][1] * m.m[3][2] - m.m[1][3] * m.m[2][2] * m.m[3][1] -
+	                  m.m[1][2] * m.m[2][1] * m.m[3][3] - m.m[1][1] * m.m[2][3] * m.m[3][2]);
+	result.m[0][1] = (1.0f / determinant) *
+	                 (-m.m[0][1] * m.m[2][2] * m.m[3][3] - m.m[0][2] * m.m[2][3] * m.m[3][1] -
+	                  m.m[0][3] * m.m[2][1] * m.m[3][2] + m.m[0][3] * m.m[2][2] * m.m[3][1] +
+	                  m.m[0][2] * m.m[2][1] * m.m[3][3] + m.m[0][1] * m.m[2][3] * m.m[3][2]);
+	result.m[0][2] = (1.0f / determinant) *
+	                 (m.m[0][1] * m.m[1][2] * m.m[3][3] + m.m[0][2] * m.m[1][3] * m.m[3][1] +
+	                  m.m[0][3] * m.m[1][1] * m.m[3][2] - m.m[0][3] * m.m[1][2] * m.m[3][1] -
+	                  m.m[0][2] * m.m[1][1] * m.m[3][3] - m.m[0][1] * m.m[1][3] * m.m[3][2]);
+	result.m[0][3] = (1.0f / determinant) *
+	                 (-m.m[0][1] * m.m[1][2] * m.m[2][3] - m.m[0][2] * m.m[1][3] * m.m[2][1] -
+	                  m.m[0][3] * m.m[1][1] * m.m[2][2] + m.m[0][3] * m.m[1][2] * m.m[2][1] +
+	                  m.m[0][2] * m.m[1][1] * m.m[2][3] + m.m[0][1] * m.m[1][3] * m.m[2][2]);
+
+	result.m[1][0] = (1.0f / determinant) *
+	                 (-m.m[1][0] * m.m[2][2] * m.m[3][3] - m.m[1][2] * m.m[2][3] * m.m[3][0] -
+	                  m.m[1][3] * m.m[2][0] * m.m[3][2] + m.m[1][3] * m.m[2][2] * m.m[3][0] +
+	                  m.m[1][2] * m.m[2][0] * m.m[3][3] + m.m[1][0] * m.m[2][3] * m.m[3][2]);
+	
+	result.m[1][1] = (1.0f / determinant) *
+	                 (m.m[0][0] * m.m[2][2] * m.m[3][3] + m.m[0][2] * m.m[2][3] * m.m[3][0] +
+	                  m.m[0][3] * m.m[2][0] * m.m[3][2] - m.m[0][3] * m.m[2][2] * m.m[3][0] -
+	                  m.m[0][2] * m.m[2][0] * m.m[3][3] - m.m[0][0] * m.m[2][3] * m.m[3][2]);
+	
+	result.m[1][2] = (1.0f / determinant) *
+	                 (-m.m[0][0] * m.m[1][2] * m.m[3][3] - m.m[0][2] * m.m[1][3] * m.m[3][0] -
+	                  m.m[0][3] * m.m[1][0] * m.m[3][2] + m.m[0][3] * m.m[1][2] * m.m[3][0] +
+	                  m.m[0][2] * m.m[1][0] * m.m[3][3] + m.m[0][0] * m.m[1][3] * m.m[3][2]);
+	
+	result.m[1][3] = (1.0f / determinant) *
+	                 (m.m[0][0] * m.m[1][2] * m.m[2][3] + m.m[0][2] * m.m[1][3] * m.m[2][0] +
+	                  m.m[0][3] * m.m[1][0] * m.m[2][2] - m.m[0][3] * m.m[1][2] * m.m[2][0] -
+	                  m.m[0][2] * m.m[1][0] * m.m[2][3] - m.m[0][0] * m.m[1][3] * m.m[2][2]);
+	
+	result.m[2][0] = (1.0f / determinant) *
+	                 (m.m[1][0] * m.m[2][1] * m.m[3][3] + m.m[1][1] * m.m[2][3] * m.m[3][0] +
+	                  m.m[1][3] * m.m[2][0] * m.m[3][1] - m.m[1][3] * m.m[2][1] * m.m[3][0] -
+	                  m.m[1][1] * m.m[2][0] * m.m[3][3] - m.m[1][0] * m.m[2][3] * m.m[3][1]);
+	
+	result.m[2][1] = (1.0f / determinant) *
+	                 (-m.m[0][0] * m.m[2][1] * m.m[3][3] - m.m[0][1] * m.m[2][3] * m.m[3][0] -
+	                  m.m[0][3] * m.m[2][0] * m.m[3][1] + m.m[0][3] * m.m[2][1] * m.m[3][0] +
+	                  m.m[0][1] * m.m[2][0] * m.m[3][3] + m.m[0][0] * m.m[2][3] * m.m[3][1]);
+
+	result.m[2][2] = (1.0f / determinant) *
+	                 (m.m[0][0] * m.m[1][1] * m.m[3][3] + m.m[0][1] * m.m[1][3] * m.m[3][0] +
+	                  m.m[0][3] * m.m[1][0] * m.m[3][1] - m.m[0][3] * m.m[1][1] * m.m[3][0] -
+	                  m.m[0][1] * m.m[1][0] * m.m[3][3] - m.m[0][0] * m.m[1][3] * m.m[3][1]);
+	result.m[2][3] = (1.0f / determinant) *
+	                 (-m.m[0][0] * m.m[1][1] * m.m[2][3] - m.m[0][1] * m.m[1][3] * m.m[2][0] -
+	                  m.m[0][3] * m.m[1][0] * m.m[2][1] + m.m[0][3] * m.m[1][1] * m.m[2][0] +
+	                  m.m[0][1] * m.m[1][0] * m.m[2][3] + m.m[0][0] * m.m[1][3] * m.m[2][1]);
+
+	result.m[3][0] = (1.0f / determinant) *
+	                 (-m.m[1][0] * m.m[2][1] * m.m[3][2] - m.m[1][1] * m.m[2][2] * m.m[3][0] -
+	                  m.m[1][2] * m.m[2][0] * m.m[3][1] + m.m[1][2] * m.m[2][1] * m.m[3][0] +
+	                  m.m[1][1] * m.m[2][0] * m.m[3][2] + m.m[1][0] * m.m[2][2] * m.m[3][1]);
+	result.m[3][1] = (1.0f / determinant) *
+	                 (m.m[0][0] * m.m[2][1] * m.m[3][2] + m.m[0][1] * m.m[2][2] * m.m[3][0] +
+	                  m.m[0][2] * m.m[2][0] * m.m[3][1] - m.m[0][2] * m.m[2][1] * m.m[3][0] -
+	                  m.m[0][1] * m.m[2][0] * m.m[3][2] - m.m[0][0] * m.m[2][2] * m.m[3][1]);
+	result.m[3][2] = (1.0f / determinant) *
+	                 (-m.m[0][0] * m.m[1][1] * m.m[3][2] - m.m[0][1] * m.m[1][2] * m.m[3][0] -
+	                  m.m[0][2] * m.m[1][0] * m.m[3][1] + m.m[0][2] * m.m[1][1] * m.m[3][0] +
+	                  m.m[0][1] * m.m[1][0] * m.m[3][2] + m.m[0][0] * m.m[1][2] * m.m[3][1]);
+	result.m[3][3] = (1.0f / determinant) *
+	                 (m.m[0][0] * m.m[1][1] * m.m[2][2] + m.m[0][1] * m.m[1][2] * m.m[2][0] +
+	                  m.m[0][2] * m.m[1][0] * m.m[2][1] - m.m[0][2] * m.m[1][1] * m.m[2][0] -
+	                  m.m[0][1] * m.m[1][0] * m.m[2][2] - m.m[0][0] * m.m[1][2] * m.m[2][1]);
+
 	return result;
 }
 

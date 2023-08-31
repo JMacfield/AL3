@@ -7,7 +7,7 @@ void Ground::Initialize(Model* model, const Vector3& position) {
 
 	worldTranform_.Initialize();
 	worldTranform_.translation_ = position;
-	worldTranform_.scale_ = {100.0f, 100.0f, 100.0f};
+	worldTranform_.scale_ = {400.0f, 400.0f, 400.0f};
 }
 
 void Ground::Update() { 

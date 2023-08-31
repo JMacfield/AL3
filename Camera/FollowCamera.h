@@ -9,11 +9,19 @@ public:
 
 	void Update();
 
-	void SetTarget(const WorldTransform* target) { target_ = target; }
+	void SetTarget(const WorldTransform* target);
 
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
+
+	float GetDestinationAngleY() { return destinationAngleY_; }
+
+	Vector3 TargetOffset() const;
+
+	void Reset();
 
 private:
 	ViewProjection viewProjection_;
 	const WorldTransform* target_ = nullptr;
+	Vector3 interTarget_ = {};
+	float destinationAngleY_ = 0.0f;
 };
