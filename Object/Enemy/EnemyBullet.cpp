@@ -12,7 +12,7 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 	bulletTexture_ = TextureManager::Load("white1x1.png");
 
 	SetCollisionAttribute(kCollisionAttributeEnemy);
-	SetCollisionMask(kCollisionAttributeEnemy);
+	SetCollisionMask(~kCollisionAttributeEnemy);
 
 	SetRadius(1.0f);
 
@@ -35,13 +35,11 @@ void EnemyBullet::Update() {
 	velocity_.y *= 0.5f;
 	velocity_.z *= 0.5f;
 
-#pragma region
 	worldTransform_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
 
 	float velocityXZ;
 	velocityXZ = sqrt(velocity_.x * velocity_.x + velocity_.z * velocity_.z);
 	worldTransform_.rotation_.x = atan2(-velocity_.y, velocityXZ);
-#pragma endregion
 
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
 
@@ -69,13 +67,13 @@ bool EnemyBullet::OnCollision() {
 }
 
 Vector3 EnemyBullet::GetWorldPosition() {
-	Vector3 worldPos{};
+	Vector3 worldPosition{};
 	
-	worldPos.x = worldTransform_.matWorld_.m[3][0];
-	worldPos.y = worldTransform_.matWorld_.m[3][1];
-	worldPos.z = worldTransform_.matWorld_.m[3][2];
+	worldPosition.x = worldTransform_.matWorld_.m[3][0];
+	worldPosition.y = worldTransform_.matWorld_.m[3][1];
+	worldPosition.z = worldTransform_.matWorld_.m[3][2];
 
-	return worldPos;
+	return worldPosition;
 }
 
 void EnemyBullet::SettingScale() { 

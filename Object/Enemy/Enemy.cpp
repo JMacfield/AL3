@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "MyMath.h"
 #include "Collision/ColliderConfig.h"
+#include "GameScene.h"
 #include <cassert>
 
 Enemy::Enemy() { state_ = new EnemyStateApproach(); }
@@ -82,12 +83,12 @@ void Enemy::Fire() {
 	newBullet->Initialize(model_, GetWorldPosition(), velocity);
 	newBullet->SetPlayer(player_);
 
-	gameScene_->
+	gameScene_->AddEnemyBullet(newBullet);
 }
 
 EnemyStateApproach::~EnemyStateApproach() { 
 	for (TimedCall* timedCall : timedCalls_) {
-		delete timedCall;	
+		delete timedCall;
 	}
 }
 

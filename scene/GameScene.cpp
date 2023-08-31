@@ -110,6 +110,7 @@ void GameScene::Update() {
 	ground_->Update();
 
 	collisionManager_->SetGameObject(player_.get(), playerBullets_, enemy_, enemyBullets_);
+	collisionManager_->CheckAllCollisions(this);
 
 	/*for (Enemy* enemy : enemy_) {
 		for (EnemyBullet* enemyBullet : enemyBullets_) {
@@ -131,7 +132,6 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() {
-
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 

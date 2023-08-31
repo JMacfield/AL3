@@ -12,7 +12,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 
 	SetRadius(1.0f);
 	SetCollisionAttribute(kCollisionAttributePlayer);
-	SetCollisionMask(kCollisionAttributePlayer);
+	SetCollisionMask(~kCollisionAttributePlayer);
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;

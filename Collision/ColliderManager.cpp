@@ -23,6 +23,7 @@ void CollisionManager::CheckCollisionPair(Collider* colliderA, Collider* collide
 	    colliderA->GetWorldPosition().x - colliderB->GetWorldPosition().x,
 	    colliderA->GetWorldPosition().y - colliderB->GetWorldPosition().y,
 	    colliderA->GetWorldPosition().z - colliderB->GetWorldPosition().z};
+
 	float a2bR = colliderA->GetRadius() + colliderB->GetRadius();
 
 	if ((a2b.x * a2b.x) + (a2b.y * a2b.y) + (a2b.z * a2b.z) <= (a2bR * a2bR)) {
@@ -56,6 +57,7 @@ void CollisionManager::CheckAllCollisions(GameScene* gameScene) {
 	}
 	
 	std::list<Collider*>::iterator itrA = colliders_.begin();
+
 	for (; itrA != colliders_.end(); ++itrA) {
 		Collider* colliderA = *itrA;
 
