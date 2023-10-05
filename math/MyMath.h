@@ -5,6 +5,14 @@
 #include <assert.h>
 #include <cmath>
 
+inline Vector3 operator-(const Vector3& v) { return {-v.x, -v.y, -v.z}; }
+inline Vector3 operator-(const Vector3& v1, const Vector3& v2) {
+	return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
+}
+
+inline Vector3 operator*(const Vector3& v, float s) { return {v.x * s, v.y * s, v.z * s}; }
+inline Vector3 operator*(float s, const Vector3& v) { return {s * v.x, s * v.y, s * v.z}; }
+
 inline Vector3 Add(Vector3 a, Vector3 b) { return {a.x + b.x, a.y + b.y, a.z + b.z}; }
 
 inline Vector3 Subtract(const Vector3& v1, const Vector3& v2) {

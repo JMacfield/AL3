@@ -1,8 +1,11 @@
 ﻿#pragma once
 
 #include "Model.h"
+#include "Input.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
+#include <cmath>
+#include <math.h>
 
 #include <memory>
 
@@ -29,6 +32,8 @@ public:
 	/// <param name= "viewProjection">ビュープロジェクション（参照渡し）</param>
 	void Draw(ViewProjection& viewProjection);
 
+	void Move();
+
 	Vector3 GetWorldPosition();
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 	void SetViewProjection(const ViewProjection* viewProjection) {viewProjection_ = viewProjection; }
@@ -39,4 +44,6 @@ private:
 	const ViewProjection* viewProjection_ = nullptr;
 	// モデル
 	Model* model_ = nullptr;
+
+	Input* input_ = nullptr;
 };
