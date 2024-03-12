@@ -4,7 +4,8 @@
 void CollisionManager::SetGameObject(
     Player* player, const std::list<PlayerBullet*>& playerBullet, const std::list<Enemy*>& enemy,
     const std::list<EnemyBullet*>& enemyBullet) {
-	SetPlayer(player);
+	//SetPlayer(player);
+	SetRightArm(rightArm);
 	SetPlayerBullet(playerBullet);
 	SetEnemy(enemy);
 	SetEnemyBullet(enemyBullet);

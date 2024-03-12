@@ -14,7 +14,7 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 	SetCollisionAttribute(kCollisionAttributeEnemy);
 	SetCollisionMask(~kCollisionAttributeEnemy);
 
-	SetRadius(1.0f);
+	SetRadius(0.5f);
 
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;

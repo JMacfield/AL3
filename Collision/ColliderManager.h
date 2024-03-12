@@ -13,6 +13,7 @@ class GameScene;
 class CollisionManager {
 public:
 	void SetPlayer(Player* player) { player_ = player; }
+	void SetRightArm(WorldTransform rightArm) { rightArm_ = rightArm; }
 	void SetPlayerBullet(const std::list<PlayerBullet*>& playerBullet) { playerBullet_ = playerBullet; }
 
 	void SetEnemy(const std::list<Enemy*>& enemy) { enemy_ = enemy; }
@@ -29,6 +30,7 @@ private:
 	std::list<Collider*> colliders_;
 
 	Player* player_;
+	WorldTransform rightArm_;
 	std::list<PlayerBullet*> playerBullet_;
 
 	std::list<Enemy*> enemy_;

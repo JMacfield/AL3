@@ -8,6 +8,8 @@
 #include "GameScene.h"
 #include <cmath>
 
+#include "ImGuiManager.h"
+
 Player::Player() {
 
 }
@@ -31,8 +33,52 @@ void Player::Initialize(Model* modelBody, Model* modelHead, Model* modelL_arm, M
 	modelWeapon_ = modelWeapon;
 	modelBullet_ = modelBullet;
 
+	modelSword_.reset(Model::CreateFromOBJ("Sword",true));
+
 	reticleTexture_ = TextureManager::Load("black.png");
 	uint32_t textureReticle = TextureManager::Load("Reticle.png");
+
+	attackSignTexture = TextureManager::Load("attacksign.png");
+	attackSign = Sprite::Create(attackSignTexture, {1080, 660}, {1, 1, 1, 1}, {0.5f, 0.5f});
+
+	knifeThrowTexture = TextureManager::Load("knifethrow.png");
+	knifeThrow = Sprite::Create(knifeThrowTexture, {200, 650}, {1, 1, 1, 1}, {0.5f, 0.5f});
+
+	life1Texture = TextureManager::Load("life1.png");
+	life2Texture = TextureManager::Load("life2.png");
+	life3Texture = TextureManager::Load("life3.png");
+	life4Texture = TextureManager::Load("life4.png");
+	life5Texture = TextureManager::Load("life5.png");
+
+	life1 = Sprite::Create(life1Texture, {200, 100}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	life2 = Sprite::Create(life2Texture, {200, 100}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	life3 = Sprite::Create(life3Texture, {200, 100}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	life4 = Sprite::Create(life4Texture, {200, 100}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	life5 = Sprite::Create(life5Texture, {200, 100}, {1, 1, 1, 1}, {0.5f, 0.5f});
+
+	knife0Texture = TextureManager::Load("knife0.png");
+	knife1Texture = TextureManager::Load("knife1.png");
+	knife2Texture = TextureManager::Load("knife2.png");
+	knife3Texture = TextureManager::Load("knife3.png");
+	knife4Texture = TextureManager::Load("knife4.png");
+	knife5Texture = TextureManager::Load("knife5.png");
+	knife6Texture = TextureManager::Load("knife6.png");
+	knife7Texture = TextureManager::Load("knife7.png");
+	knife8Texture = TextureManager::Load("knife8.png");
+	knife9Texture = TextureManager::Load("knife9.png");
+	knife10Texture = TextureManager::Load("knife10.png");
+
+	knife0 = Sprite::Create(knife0Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife1 = Sprite::Create(knife1Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife2 = Sprite::Create(knife2Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife3 = Sprite::Create(knife3Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife4 = Sprite::Create(knife4Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife5 = Sprite::Create(knife5Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife6 = Sprite::Create(knife6Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife7 = Sprite::Create(knife7Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife8 = Sprite::Create(knife8Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife9 = Sprite::Create(knife9Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
+	knife10 = Sprite::Create(knife10Texture, {820, 300}, {1, 1, 1, 1}, {0.01f, 0.01f});
 
 	sprite2DReticle_ = Sprite::Create(textureReticle, {640, 320}, {1, 1, 1, 1}, {0.5f, 0.5f});
 
@@ -42,11 +88,18 @@ void Player::Initialize(Model* modelBody, Model* modelHead, Model* modelL_arm, M
 	worldTransformR_arm_.translation_.x = 1.5f;
 	worldTransformL_arm_.translation_.y = 5.0f;
 	worldTransformR_arm_.translation_.y = 5.0f;
-	worldTransformWeapon_.translation_.x = 1.5f;
-	worldTransformWeapon_.translation_.y = 2.0f;
-	worldTransformWeapon_.translation_.z = 1.5f;
+	
+	worldTransformSword_.translation_.x = 1.5f;
+	worldTransformSword_.translation_.y = 2.0f;
+	worldTransformSword_.translation_.z = 1.5f;
 
-	SetRadius(2.0f);
+	worldTransformSword_.scale_ = {0.3f, 0.3f, 0.3f};
+	worldTransformSword_.rotation_ = {1.0f, 0.0f, 0.0f};
+	worldTransformSword_.translation_ = {2.7f, 2.0f, -1.5f};
+
+	worldTransformKnife_.translation_ = {-2.7f, 2.0f, 1.5f};
+
+	SetRadius(3.0f);
 
 	SetParent(&GetWorldTransformBody());
 
@@ -58,6 +111,8 @@ void Player::Initialize(Model* modelBody, Model* modelHead, Model* modelL_arm, M
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
 	worldTransformWeapon_.Initialize();
+	worldTransformSword_.Initialize();
+	worldTransformKnife_.Initialize();
 
 	spritePosition_ = sprite2DReticle_->GetPosition();
 	worldTransform3DReticle_.Initialize();
@@ -75,6 +130,7 @@ void Player::Update() {
 
 	worldTransform3DReticle_.UpdateMatrix();
 
+	Melee();
 	Attack();
 	BehaviorRootUpdate();
 
@@ -84,10 +140,56 @@ void Player::Update() {
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
 	worldTransformWeapon_.UpdateMatrix();
+	worldTransformSword_.UpdateMatrix();
+	worldTransformKnife_.UpdateMatrix();
+
+	/*ImGui::Begin("Debug");
+	ImGui::DragFloat3("rotate", &worldTransformSword_.rotation_.x, 0.1f);
+	ImGui::DragFloat3("trans", &worldTransformSword_.translation_.x, 0.1f);
+	ImGui::DragInt("lifePoint", &lifePoint_, 1);
+	ImGui::DragFloat3("armRotate", &worldTransformR_arm_.rotation_.x, 0.1f);
+	ImGui::DragInt("comboBeha", &comboBeha, 1);
+	ImGui::End();*/
 }
 
 void Player::DrawUI() { 
 	sprite2DReticle_->Draw();
+	knifeThrow->Draw();
+	attackSign->Draw();
+
+	if (lifePoint_ == 5)
+		life5->Draw();
+	if (lifePoint_ == 4)
+		life4->Draw();
+	if (lifePoint_ == 3)
+		life3->Draw();
+	if (lifePoint_ == 2)
+		life2->Draw();
+	if (lifePoint_ == 1)
+		life1->Draw();
+
+	if (knifeCount_ == 10)
+		knife10->Draw();
+	if (knifeCount_ == 9)
+		knife9->Draw();
+	if (knifeCount_ == 8)
+		knife8->Draw();
+	if (knifeCount_ == 7)
+		knife7->Draw();
+	if (knifeCount_ == 6)
+		knife6->Draw();
+	if (knifeCount_ == 5)
+		knife5->Draw();
+	if (knifeCount_ == 4)
+		knife4->Draw();
+	if (knifeCount_ == 3)
+		knife3->Draw();
+	if (knifeCount_ == 2)
+		knife2->Draw();
+	if (knifeCount_ == 1)
+		knife1->Draw();
+	if (knifeCount_ == 0)
+		knife0->Draw();
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
@@ -95,8 +197,9 @@ void Player::Draw(ViewProjection& viewProjection) {
 	modelHead_->Draw(worldTransformHead_, viewProjection);
 	modelL_arm_->Draw(worldTransformL_arm_, viewProjection);
 	modelR_arm_->Draw(worldTransformR_arm_, viewProjection);
-	modelWeapon_->Draw(worldTransformWeapon_, viewProjection);
+	//modelWeapon_->Draw(worldTransformWeapon_, viewProjection);
 	modelBullet_->Draw(worldTransform3DReticle_, viewProjection);
+	//modelSword_->Draw(worldTransformSword_, viewProjection);
 }
 
 bool Player::UnCollision() {
@@ -110,6 +213,8 @@ bool Player::OnCollision() {
 	worldTransformBase_.UpdateMatrix();
 
 	isDead_ = true;
+
+	//lifePoint_ -= 1;
 
 	return true;
 }
@@ -149,6 +254,8 @@ void Player::SetParent(const WorldTransform* parent) {
 	worldTransformL_arm_.parent_ = parent;
 	worldTransformR_arm_.parent_ = parent;
 	worldTransformWeapon_.parent_ = parent;
+	worldTransformSword_.parent_ = parent;
+	worldTransformKnife_.parent_ = parent;
 }
 
 void Player::InitializeFloatingGimmick() { 
@@ -215,7 +322,60 @@ void Player::BehaviorRootUpdate() {
 	worldTransformBody_.rotation_.y =
 	    Alerp(worldTransformBody_.rotation_.y, bulletImpactPoint_, 0.1f);
 
-	UpdateFloatingGimmick();
+	//UpdateFloatingGimmick();
+}
+
+void Player::Melee() { 
+	XINPUT_STATE joyState;
+	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
+		return;
+	}
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+		if (comboBeha == 0) {
+			comboBeha = 1;
+		}
+
+		if (comboBeha == 2) {
+			comboBeha = 3;
+		}
+	}
+
+	if (comboBeha == 1) {
+		worldTransformR_arm_.rotation_.x = -1.5f;
+		comboCount = 1;
+	}
+
+	if (comboCount == 1) {
+		comboBeha = 2;
+		worldTransformR_arm_.rotation_.x += 0.1f;
+	}
+
+	if (worldTransformR_arm_.rotation_.x > 1.7f && comboBeha == 2) {
+		//isRBPush = true;
+		comboBeha = 2;
+		comboCount = 2;
+		worldTransformR_arm_.rotation_.x = 0.0f;
+	}
+
+	if (comboBeha == 3) {
+		worldTransformR_arm_.rotation_ = {-1.8f, -0.4f, 1.4f};
+		comboCount = 3;
+	}
+
+	if (comboCount == 3) {
+		comboBeha = 4;
+		worldTransformR_arm_.rotation_.x += 0.1f;
+	}
+
+	if (worldTransformR_arm_.rotation_.x > 1.2f && comboBeha == 4) {
+		//isRBPush = false;
+		comboBeha = 0;
+		comboCount = 0;
+		worldTransformR_arm_.rotation_.x = 0.0f;
+		worldTransformR_arm_.rotation_.y = 0.0f;
+		worldTransformR_arm_.rotation_.z = 0.0f;
+	}
 }
 
 void Player::Attack() { 
@@ -225,7 +385,19 @@ void Player::Attack() {
 		return;
 	}
 
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+	if (isKnifeTimerStart == true) {
+		knifeTimeCount_++;
+	}
+
+	if (knifeTimeCount_ > 60) {
+		knifeTimeCount_ = 0;
+		isKnifeTimerStart = false;
+	}
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER && isKnifeTimerStart == false && knifeCount_ != 0) {
+		isKnifeTimerStart = true;
+		knifeCount_ -= 1;
+
 		worldTransformBase_.rotation_ = viewProjection_->rotation_;
 		worldTransformBase_.rotation_.x = 0;
 		worldTransformBody_.rotation_ = viewProjection_->rotation_;
@@ -235,9 +407,9 @@ void Player::Attack() {
 		Vector3 velocity(0, 0, kBulletSpeed);
 
 		Vector3 worldPosition;
-		worldPosition.x = worldTransformWeapon_.matWorld_.m[3][0];
-		worldPosition.y = worldTransformWeapon_.matWorld_.m[3][1];
-		worldPosition.z = worldTransformWeapon_.matWorld_.m[3][2];
+		worldPosition.x = worldTransformKnife_.matWorld_.m[3][0];
+		worldPosition.y = worldTransformKnife_.matWorld_.m[3][1];
+		worldPosition.z = worldTransformKnife_.matWorld_.m[3][2];
 
 		velocity = TransformNormal(velocity, worldTransformBase_.matWorld_);
 
@@ -260,7 +432,6 @@ void Player::Attack() {
 }
 
 void Player::Create3DReticle() {
-	
 	const float kDistancePlayerTo3DReticle = 200.0f;
 	
 	Vector3 offset{0, 0, 1.0f};

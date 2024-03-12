@@ -24,7 +24,11 @@ void GameScene::Initialize() {
 	LoadCSVData("csv/enemyPop.csv", &enemyPopCommands_);
 
 	titleResource_ = TextureManager::Load("title.png");
-	titleSprite_ = Sprite::Create(titleResource_, {640, 320}, {1, 1, 1, 1}, {0.5f, 0.5f});
+	titleSprite_ = Sprite::Create(titleResource_, {640, 360}, {1, 1, 1, 1}, {0.5f, 0.5f});
+
+	fadeResource_ = TextureManager::Load("black.png");
+	fadeSprite_ = Sprite::Create(fadeResource_, {640, 320}, {1, 1, 1, 0}, {0.5f, 0.5f});
+	fadeSprite_->SetSize({1280, 900});
 
 	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterHead_.reset(Model::CreateFromOBJ("float_Head", true));
@@ -63,23 +67,60 @@ void GameScene::Initialize() {
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 
 	collisionManager_ = std::make_unique<CollisionManager>();
+
+	sceneNumber = 0;
+
+	flag = false;
+	move = 320;
+
+	fadeAlpha = 0.0f;
+	isReset_ = true;
+	fadeFlag = false;
 }
 
 void GameScene::Update() {
 	switch (sceneNumber) {
 	case 0:
+		/*if (isReset_ == true) {
+			Initialize();
+			isReset_ = false;
+		}*/
+
 		XINPUT_STATE joyState;
+
+		//titleSprite_->SetPosition({titleSprite_->GetPosition().x, move});
+
+		if (flag == false) move++;
+		if (titleSprite_->GetPosition().y > 340) flag = true;
+		if (flag == true) move--;
+		if (titleSprite_->GetPosition().y < 300) flag = false;
 
 		if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
 			return;
 		}
-
+	
+		fadeSprite_->SetColor({1, 1, 1, fadeAlpha});
+		
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+			fadeFlag = true;	
+		}
+
+		if (fadeFlag == true) {
+			fadeAlpha += 0.01f;
+		}
+
+		if (fadeSprite_->GetColor().w > 1.0f) {
 			sceneNumber = 1;
 		}
 		break;
 
 	case 1:
+		fadeSprite_->SetColor({1, 1, 1, fadeAlpha});
+
+		if (fadeFlag == true) {
+			fadeAlpha -= 0.01f;
+		}
+
 		player_->Update();
 
 		playerBullets_.remove_if([](PlayerBullet* bullet) {
@@ -123,11 +164,20 @@ void GameScene::Update() {
 			return false;
 		});
 
+		if (player_->GetHP() == 0) {
+			sceneNumber = 0;
+			//isReset_ = true;
+		}
+
 		skyDome_->Update();
 		ground_->Update();
 
-		collisionManager_->SetGameObject(player_.get(), playerBullets_, enemy_, enemyBullets_);
-		collisionManager_->CheckAllCollisions(this);
+		/*collisionManager_->SetGameObject(
+		    player_.get(), playerBullets_, enemy_, enemyBullets_);
+		collisionManager_->CheckAllCollisions(this);*/
+
+		collisionManager_
+		    ->CheckCollisionPair(player_.get(),enemy_)
 
 		viewProjection_.UpdateMatrix();
 
@@ -138,11 +188,11 @@ void GameScene::Update() {
 
 		viewProjection_.TransferMatrix();
 
-		ImGui::Begin("control");
+		/*ImGui::Begin("control");
 		ImGui::Text("L move");
 		ImGui::Text("R camera");
 		ImGui::Text("RB shoot");
-		ImGui::End();
+		ImGui::End();*/
 
 		AxisIndicator::GetInstance()->SetVisible(true);
 		AxisIndicator::GetInstance()->SetTargetViewProjection(&followCamera_->GetViewProjection());
@@ -178,7 +228,7 @@ void GameScene::Draw() {
 	
 	switch (sceneNumber) {
 	case 0:
-
+		
 	break;
 
 	case 1:
@@ -212,9 +262,11 @@ void GameScene::Draw() {
 	switch (sceneNumber) {
 	case 0:
 	titleSprite_->Draw();
+	fadeSprite_->Draw();
 	break;
 
 	case 1:
+	fadeSprite_->Draw();
 	player_->DrawUI();
 	break;
 	}

@@ -29,7 +29,7 @@ public:
 
 public:
 	Enemy* enemy_;
-	static const int kFireInterval = 60;
+	static const int kFireInterval = 240;
 	std::list<TimedCall*> timedCalls_;
 };
 

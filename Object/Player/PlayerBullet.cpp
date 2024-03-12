@@ -10,6 +10,8 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	model_ = model;
 	bulletTexture_ = TextureManager::Load("enemyBullet.png");
 
+	modelKnife_.reset(Model::CreateFromOBJ("Knife", true));
+
 	SetRadius(1.0f);
 	SetCollisionAttribute(kCollisionAttributePlayer);
 	SetCollisionMask(~kCollisionAttributePlayer);
@@ -35,7 +37,8 @@ void PlayerBullet::Update() {
 }
 
 void PlayerBullet::Draw(const ViewProjection& viewProjection) {
-	model_->Draw(worldTransform_, viewProjection, bulletTexture_);
+	//model_->Draw(worldTransform_, viewProjection, bulletTexture_);
+	modelKnife_->Draw(worldTransform_, viewProjection);
 }
 
 bool PlayerBullet::UnCollision() { 

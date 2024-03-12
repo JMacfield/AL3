@@ -26,4 +26,6 @@ private:
 	bool isDead_ = false;
 
 	Vector3 velocity_;
+
+	std::unique_ptr<Model> modelKnife_;
 };

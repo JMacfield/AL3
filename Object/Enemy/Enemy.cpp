@@ -74,7 +74,7 @@ void Enemy::Move(const Vector3& velocity) {
 void Enemy::Fire() { 
 	assert(player_);
 
-	const float kBulletSpeed = -0.5f;
+	const float kBulletSpeed = -0.1f;
 	Vector3 velocity{0, 0, kBulletSpeed};
 
 	player_->GetWorldPosition();

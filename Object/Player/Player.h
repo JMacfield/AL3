@@ -27,8 +27,10 @@ public:
 	bool OnCollision() override;
 
 	Vector3 GetWorldPosition() override;
+	WorldTransform GetRightArm() { return worldTransformR_arm_; }
 
 	void Attack();
+	void Melee();
 
 	void InitializeFloatingGimmick();
 	void UpdateFloatingGimmick();
@@ -48,6 +50,8 @@ public:
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 	void SetParent(const WorldTransform* parent);
 
+	int GetHP() { return lifePoint_; }
+
 private:
 	enum class Behavior { kRoot };
 	Behavior behavior_ = Behavior::kRoot;
@@ -59,6 +63,9 @@ private:
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
 	WorldTransform worldTransformWeapon_;
+	WorldTransform worldTransformSword_;
+
+	WorldTransform worldTransformKnife_;
 
 	WorldTransform worldTransform3DReticle_;
 
@@ -70,6 +77,8 @@ private:
 	Model* modelR_arm_;
 	Model* modelWeapon_;
 	Model* modelBullet_;
+
+	std::unique_ptr<Model> modelSword_;
 
 	float bulletImpactPoint_;
 	float floatingParameter_ = 0.0f;
@@ -89,4 +98,58 @@ private:
 	Input* input_;
 
 	Vector3 velocity_;
+
+	Sprite* life1 = nullptr;
+	Sprite* life2 = nullptr;
+	Sprite* life3 = nullptr;
+	Sprite* life4 = nullptr;
+	Sprite* life5 = nullptr;
+
+	uint32_t life1Texture = 0u;
+	uint32_t life2Texture = 0u;
+	uint32_t life3Texture = 0u;
+	uint32_t life4Texture = 0u;
+	uint32_t life5Texture = 0u;
+
+	int lifePoint_ = 5;
+
+	Sprite* knife0 = nullptr;
+	Sprite* knife1 = nullptr;
+	Sprite* knife2 = nullptr;
+	Sprite* knife3 = nullptr;
+	Sprite* knife4 = nullptr;
+	Sprite* knife5 = nullptr;
+	Sprite* knife6 = nullptr;
+	Sprite* knife7 = nullptr;
+	Sprite* knife8 = nullptr;
+	Sprite* knife9 = nullptr;
+	Sprite* knife10 = nullptr;
+	
+	uint32_t knife0Texture = 0u;
+	uint32_t knife1Texture = 0u;
+	uint32_t knife2Texture = 0u;
+	uint32_t knife3Texture = 0u;
+	uint32_t knife4Texture = 0u;
+	uint32_t knife5Texture = 0u;
+	uint32_t knife6Texture = 0u;
+	uint32_t knife7Texture = 0u;
+	uint32_t knife8Texture = 0u;
+	uint32_t knife9Texture = 0u;
+	uint32_t knife10Texture = 0u;
+
+	Sprite* knifeThrow = nullptr;
+	uint32_t knifeThrowTexture = 0u;
+
+	int knifeCount_ = 10;
+	int knifeTimeCount_ = 0;
+
+	Sprite* attackSign = nullptr;
+	uint32_t attackSignTexture = 0u;
+
+	bool isKnifeTimerStart = false;
+
+	int comboCount = 0;
+	int comboBeha = 0;
+
+	bool isRBPush = true;
 };

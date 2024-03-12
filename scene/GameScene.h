@@ -109,7 +109,20 @@ private: // メンバ変数
 	uint32_t titleResource_ = 0u;
 	Sprite* titleSprite_ = nullptr;
 
-	int sceneNumber = 0;
+	int sceneNumber;
+
+	float move;
+	bool flag;
+
+	Sprite* fadeSprite_ = nullptr;
+	uint32_t fadeResource_ = 0u;
+
+	float fadeAlpha;
+	bool fadeFlag;
+
+	bool isReset_;
+
+	std::list<Enemy*> damy_;
 
 	/// <summary>
 	/// ゲームシーン用
